@@ -219,7 +219,7 @@ function table_data(data) {
     return(data_array);
 }
 
-var args = { location: '#my_chart', type: 'votes', sum: false, length: 'all', players: [ {name: 'Ter Stegen'}, {  name: 'Busquets' }, { name: 'Umtiti' }, {name: 'Sergi Roberto'}, {name: 'Paulinho'}, {name: 'Semedo'}, {name: 'Alba'}] };
+var args = { location: '#my_chart', type: 'votes', sum: true, length: 'all', players: [ {name: 'Ter Stegen'}, {  name: 'Busquets' }, { name: 'Umtiti' }, {name: 'Sergi Roberto'}, {name: 'Paulinho'}, {name: 'Semedo'}, {name: 'Alba'}] };
 
 google.charts.load('current', {'packages':['line']});
 google.charts.setOnLoadCallback(function(){
@@ -294,9 +294,27 @@ $('.popup .modal-footer button, .popup .close').click(function() {
 // });
 
 
-$(window).resize(function(){
+$(window).resize(function(event){
     drawChart(args);
 });
+
+
+
+
+$('.main-menu').click(function() {
+
+    $('.main-menu.active').removeClass('active');
+    $(this).addClass('active');
+
+    var clicked = $(this).attr('href').replace('#','');
+
+    $('.visible-page').addClass('hidden-page');
+    $('.visible-page').removeClass('visible-page');
+
+    $('.hidden-page.page-' + clicked).addClass('visible-page');
+
+});
+
 
 
 }); //end of onload
