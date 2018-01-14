@@ -22,10 +22,10 @@ body {
   opacity: 0;
 }
 
-.hidden-page {
+.page-home, .page-players {
   display: none;
 }
 
 .visible-page {
-  display: initial;
+  display: block!important;
 }

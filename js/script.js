@@ -3,6 +3,7 @@ $(document).ready(function() {
 var last_match = matches[matches.length-1];
 var latest_month_data = 'Table ' + month_num_str(last_match.month) + ' ' + last_match.year + ':';
 var last_update = 'Last update: ' + meta[0].last_update;
+
 $('.latest-month').text(latest_month_data);
 $('.last-update').text(last_update);
 $('.season-table-home').replaceWith(return_table(12));
@@ -154,11 +155,10 @@ function return_table(length,month) {
 
 
 setInterval(function () {  
-    var target_date = meta[0].next_match;
+    var current_date = new Date().getTime();
+    var target_date = (meta[0].upcoming_match <= current_date) ? nearest_match = meta[0].next_match : nearest_match = meta[0].upcoming_match;
     
     var days, hours, minutes, seconds;
-    
-    var current_date = new Date().getTime();
     var seconds_left = (target_date - current_date) / 1000;
     
     days = parseInt(seconds_left / 86400);
@@ -316,10 +316,9 @@ $('.main-menu').click(function() {
 
     var clicked = $(this).attr('href').replace('#','');
 
-    $('.visible-page').addClass('hidden-page');
     $('.visible-page').removeClass('visible-page');
 
-    $('.hidden-page.page-' + clicked).addClass('visible-page');
+    $('.page-' + clicked).addClass('visible-page');
 
 });
 
