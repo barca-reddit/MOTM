@@ -73,6 +73,8 @@ $.each(ratings, function(i, item) {
     }
 });
 
+
+
 function return_table(length,month) {
     var table = [];
     var html = '';
@@ -91,8 +93,12 @@ function return_table(length,month) {
         }
 
         table.sort(function(a, b){
-            return a.points < b.points;
+            return a.votes == b.votes ? 0 : +(a.votes < b.votes) || -1;
         });
+
+		table.sort(function(a, b) {
+  			return a.points == b.points ? 0 : +(a.points < b.points) || -1;
+		});
 
         for (i=0;i<length;i++) {
             html += '<tr><th scope="row">' + (i+1) + '</th>\
@@ -125,10 +131,12 @@ function return_table(length,month) {
         }
 
         table.sort(function(a, b){
-            return a.points < b.points;
+  			return a.votes == b.votes ? 0 : +(a.votes < b.votes) || -1;
         });
-
-        console.log(table);
+        
+        table.sort(function(a, b){
+            return a.points == b.points ? 0 : +(a.points < b.points) || -1;
+        });
 
         for (i=0;i<length;i++) {
             html += '<tr><th scope="row">' + (i+1) + '</th>\

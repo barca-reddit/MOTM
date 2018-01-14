@@ -20,3 +20,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Project files
+
+index_old.html
+players.html
