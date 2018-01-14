@@ -6,8 +6,8 @@ var last_update = 'Last update: ' + meta[0].last_update;
 
 $('.latest-month').text(latest_month_data);
 $('.last-update').text(last_update);
-$('.season-table-home').replaceWith(return_table(12));
-$('.monthly-table-home').replaceWith(return_table(12,1));
+$('.table-season-home').replaceWith(table_home(12));
+$('.table-monthly-home').replaceWith(table_home(12,1));
 $('.post-match-thread-home').attr('href','https://redd.it/' + last_match.thread);
 $('.post-match-thread-home').text(
     last_match.day
@@ -76,13 +76,14 @@ $.each(ratings, function(i, item) {
 
 
 
-function return_table(length,month) {
+function table_home(length,month) {
     var table = [];
     var html = '';
     var match_list = [];
 
-    var html = '<table class="table table-sm table-striped text-center season-table-home">\
-            <thead><tr><th scope="col">#</th><th class="text-left" scope="col">Player Name</th><th scope="col">Total Votes</th><th scope="col">Total Points</th></tr></thead>\
+    var html = (!month) ? '<table class="table table-sm table-striped text-center table-season-home">' : '<table class="table table-sm table-striped text-center table-monthly-home">';
+
+    html += '<thead><tr><th>#</th><th class="text-left">Player Name</th><th>Total Votes</th><th>Total Points</th></tr></thead>\
             <tbody>';
     
     if (!month) {
@@ -102,7 +103,7 @@ function return_table(length,month) {
 		});
 
         for (i=0;i<length;i++) {
-            html += '<tr><th scope="row">' + (i+1) + '</th>\
+            html += '<tr><th>' + (i+1) + '</th>\
             <td class="text-left">'+ table[i].name + '</td>\
             <td>'+ table[i].votes + '</td>\
             <td>'+ table[i].points + '</td>\
@@ -140,7 +141,7 @@ function return_table(length,month) {
         });
 
         for (i=0;i<length;i++) {
-            html += '<tr><th scope="row">' + (i+1) + '</th>\
+            html += '<tr><th>' + (i+1) + '</th>\
             <td class="text-left">'+ table[i].name + '</td>\
             <td>'+ table[i].votes + '</td>\
             <td>'+ table[i].points + '</td>\
@@ -173,10 +174,6 @@ setInterval(function () {
     $('.countdown').text(final);
 
 }, 1000);
-
-
-
-
 
 function table_data(data) {
     var data_array = [];
@@ -234,8 +231,6 @@ google.charts.setOnLoadCallback(function(){
     drawChart(args);
 });
 
-
-
 function drawChart(args) {
     console.log('start');
     var data = new google.visualization.DataTable();
@@ -288,38 +283,52 @@ $('.popup .modal-footer button, .popup .close').click(function() {
     });
 });
 
-// $('.clicker').click(function() {
-//     $('.popup').fadeIn( "fast", function() {
-//         var popup = { location: '#popup-chart', type: 'votes', sum: true, length: 'all', players: [ {name: 'Ter Stegen'}, {  name: 'Busquets' }, { name: 'Umtiti' }, {name: 'Sergi Roberto'}, {name: 'Paulinho'}, {name: 'Semedo'}] };
-//         drawChart(popup);
-//     });
-// });
-
-// $('.popup .modal-footer button, .popup .close').click(function() {
-//     $('.popup').fadeOut( "slow", function() {
-//         // Animation complete.
-//     });
-// });
-
-
 $(window).resize(function(event){
     drawChart(args);
 });
+
+function table_matches() {
+    var html;
+
+    for (i=0;i<matches.length;i++) {
+        html +=
+        '<tr>' +
+        '<td>' + matches[i].day + '-' + month_num_str(matches[i].month) + '-' + matches[i].year + '</td>' +
+        '<td>' + matches[i].competition + '</td>' +
+        '<td>' + matches[i].home_team + '</td>' +
+        '<td>' + matches[i].home_score + '-' + matches[i].away_score  + '</td>' +
+        '<td>' + matches[i].away_team + '</td>' +
+        '<td>' + '<a class="text-primary" href="https://redd.it/' + matches[i].thread + '" target="_blank">Thread</a></td>' +
+        '</tr>'
+    }
+
+    return html;
+}
 
 
 
 
 $('.main-menu').click(function() {
-
+    var clicked = $(this).attr('href').replace('#','');
     $('.main-menu.active').removeClass('active');
     $(this).addClass('active');
 
-    var clicked = $(this).attr('href').replace('#','');
+    if (clicked === 'matches') {
+        if ($('.page-matches .table-matches tbody tr').length > 0) {
+            $('.visible-page').removeClass('visible-page');
+            $('.page-' + clicked).addClass('visible-page');
+        }
+        else {
+            $('.page-matches .table-matches tbody').html(table_matches());
+            $('.visible-page').removeClass('visible-page');
+            $('.page-' + clicked).addClass('visible-page');
+        }
+    }
 
-    $('.visible-page').removeClass('visible-page');
-
-    $('.page-' + clicked).addClass('visible-page');
-
+    else {
+        $('.visible-page').removeClass('visible-page');
+        $('.page-' + clicked).addClass('visible-page');
+    }
 });
 
 

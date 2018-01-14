@@ -8,7 +8,6 @@ body {
   min-height: 500px;
 }
 
-
 .popup .modal-dialog {
   max-width: 60%;
   position: fixed;
@@ -22,7 +21,7 @@ body {
   opacity: 0;
 }
 
-.page-home, .page-players {
+.page-home, .page-players, .page-matches {
   display: none;
 }
 
