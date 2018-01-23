@@ -25,8 +25,12 @@ function load_json(callback) {
             matches = all_data[1];
             ratings = all_data[2];
             meta = all_data[3];
-            callback();
-    });
+            
+        });
+
+    if (callback && typeof(callback) === "function") {
+        callback();
+    }
    
 }
 
