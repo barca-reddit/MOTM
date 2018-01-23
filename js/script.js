@@ -22,13 +22,21 @@ function load_json() {
             matches = all_data[1];
             ratings = all_data[2];
             meta = all_data[3];
+            console.log('load_json() end');
             main();
+            console.log('main() called');
     }))
 }
 
 load_json();
 
 function main() {
+console.log('main() start');
+
+console.log(players);
+console.log(matches);
+console.log(ratings);
+console.log(meta);
 
 var last_match = matches[matches.length-1];
 var latest_month_data = 'Table ' + month_num_str(last_match.month) + ' ' + last_match.year + ':';
@@ -187,8 +195,6 @@ function line_chart_data(data) {
         }
     }
 
-    console.log(object);
-
     return object;
 
 }
@@ -327,8 +333,6 @@ $('.main-menu').click(function() {
                 return a.percentage < b.percentage;
             });
 
-            console.log(max_percentage);
-
             max_percentage = max_percentage.slice(0,5);
             max_percentage.reverse(); //reversing array so jquery.after() works properly
 
@@ -384,13 +388,9 @@ $('.main-menu').click(function() {
                 return a.count < b.count;
             });
 
-            console.log(match_total_votes);
-
             match_total_votes_low.sort(function(a,b) {
                 return a.count > b.count;
             });
-
-            console.log(match_total_votes_low);
 
             match_total_votes = match_total_votes.slice(0,5);
             match_total_votes = match_total_votes.reverse();
@@ -471,7 +471,6 @@ function event_listener_matches() {
         else {
             $(this).addClass('uparrow');
             var table_motm_ratings = ratings.filter(function(item){ return item.match_id == table_match_id});
-            console.log(table_motm_ratings);
             table_motm_ratings.reverse();
             for (i=0;i<table_motm_ratings.length;i++) {
                 $(this).parent().parent().after(
