@@ -1,9 +1,9 @@
 $(document).ready(function() {
 
-var players,matches,ratings,meta;
-var all_data = [];
-
 function load_json() {
+    var players,matches,ratings,meta;
+    var all_data = [];
+
     $.when(
         $.getJSON('./data/players.json', function(data) {
             all_data.push(data);
@@ -23,14 +23,14 @@ function load_json() {
             ratings = all_data[2];
             meta = all_data[3];
             console.log('load_json() end');
-            main();
+            main(players,matches,ratings,meta);
             console.log('main() called');
     }))
 }
 
 load_json();
 
-function main() {
+function main(players,matches,ratings,meta) {
 console.log('main() start');
 
 console.log(players);
