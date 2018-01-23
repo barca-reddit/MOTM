@@ -3,7 +3,7 @@ $(document).ready(function() {
 var players,matches,ratings,meta;
 var all_data = [];
 
-function load_json(callback) {
+function load_json() {
     $.when(
         $.getJSON('./data/players.json', function(data) {
             all_data.push(data);
@@ -16,27 +16,17 @@ function load_json(callback) {
         }),
         $.getJSON('./data/meta.json', function(data) {
             all_data.push(data);
-        }),
-        $.getScript( './js/functions.js', function( data, textStatus, jqxhr ) {
-            console.log( jqxhr.status ); // 200
         })
-        ).then(function() {
+        .done(function() {
             players = all_data[0];
             matches = all_data[1];
             ratings = all_data[2];
             meta = all_data[3];
-            
-        });
-
-    if (callback && typeof(callback) === "function") {
-        callback();
-    }
-   
+            main();
+    }))
 }
 
-load_json(function() {
-    main();
-});
+load_json();
 
 function main() {
 
