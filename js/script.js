@@ -1,27 +1,17 @@
 $(document).ready(function() {
 
 function load_json() {
-    var players,matches,ratings,meta;
-    var all_data = [];
 
     $.when(
-        $.getJSON('./data/players.json', function(data) {
-            players = data;
-        }),
-        $.getJSON('./data/matches.json', function(data) {
-            matches = data;
-        }),
-        $.getJSON('./data/ratings.json', function(data) {
-            ratings = data;
-        }),
-        $.getJSON('./data/meta.json', function(data) {
-            meta = data;
-        })
-        .done(function() {
+        $.getJSON('./data/players.json'),
+        $.getJSON('./data/matches.json'),
+        $.getJSON('./data/ratings.json'),
+        $.getJSON('./data/meta.json'))
+        .done(function(j1,j2,j3,j4) {
             console.log('load_json() end');
-            main(players,matches,ratings,meta);
+            main(j1[0],j2[0],j3[0],j4[0]);
             console.log('main() called');
-    }))
+    })
 }
 
 load_json();
