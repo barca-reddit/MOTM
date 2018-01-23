@@ -6,22 +6,18 @@ function load_json() {
 
     $.when(
         $.getJSON('./data/players.json', function(data) {
-            all_data.push(data);
+            players = data;
         }),
         $.getJSON('./data/matches.json', function(data) {
-            all_data.push(data);
+            matches = data;
         }),
         $.getJSON('./data/ratings.json', function(data) {
-            all_data.push(data);
+            ratings = data;
         }),
         $.getJSON('./data/meta.json', function(data) {
-            all_data.push(data);
+            meta = data;
         })
         .done(function() {
-            players = all_data[0];
-            matches = all_data[1];
-            ratings = all_data[2];
-            meta = all_data[3];
             console.log('load_json() end');
             main(players,matches,ratings,meta);
             console.log('main() called');
