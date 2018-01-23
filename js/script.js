@@ -3,28 +3,35 @@ $(document).ready(function() {
 var players,matches,ratings,meta;
 var all_data = [];
 
-$.when(
-    $.getJSON('./data/players.json', function(data) {
-        all_data.push(data);
-    }),
-    $.getJSON('./data/matches.json', function(data) {
-        all_data.push(data);
-    }),
-    $.getJSON('./data/ratings.json', function(data) {
-        all_data.push(data);
-    }),
-    $.getJSON('./data/meta.json', function(data) {
-        all_data.push(data);
-    }),
-    $.getScript( './js/functions.js', function( data, textStatus, jqxhr ) {
-        console.log( jqxhr.status ); // 200
-    })
-    ).then(function() {
-        players = all_data[0];
-        matches = all_data[1];
-        ratings = all_data[2];
-        meta = all_data[3];
-        main();
+function load_json(callback) {
+    $.when(
+        $.getJSON('./data/players.json', function(data) {
+            all_data.push(data);
+        }),
+        $.getJSON('./data/matches.json', function(data) {
+            all_data.push(data);
+        }),
+        $.getJSON('./data/ratings.json', function(data) {
+            all_data.push(data);
+        }),
+        $.getJSON('./data/meta.json', function(data) {
+            all_data.push(data);
+        }),
+        $.getScript( './js/functions.js', function( data, textStatus, jqxhr ) {
+            console.log( jqxhr.status ); // 200
+        })
+        ).then(function() {
+            players = all_data[0];
+            matches = all_data[1];
+            ratings = all_data[2];
+            meta = all_data[3];
+            callback();
+    });
+   
+}
+
+load_json(function() {
+    main();
 });
 
 function main() {
