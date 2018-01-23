@@ -1,5 +1,5 @@
 body {
-  box-shadow: inset 0 0 20em 0 #dedede;
+  box-shadow: inset 0 0 5em 0 #dedede;
   background-color: #f8f8f8;
 }
 
@@ -21,10 +21,109 @@ body {
   opacity: 0;
 }
 
-.page-home, .page-players, .page-matches {
+.page-home, .page-players, .page-matches, .page-records, .page-tables {
   display: none;
 }
 
 .visible-page {
   display: block!important;
 }
+
+/* CUSTOM TABLE STYLE HOME PAGE */
+
+.page-home-main-chart path.ct-line {
+  stroke-width: 2px;
+}
+
+.page-home-main-chart line.ct-point {
+  stroke-width: 6px;
+}
+
+/* TOOLTIPS */
+
+.chartist-tooltip {
+  position: absolute;
+  display: inline-block;
+  opacity: 0;
+  min-width: 5em;
+  padding: .2em .5em;
+  font-size: 12px;
+  font-weight: 700;
+  background: #F4C63D;
+  color: #453D3F;
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+  -webkit-transition: opacity .2s linear;
+  -moz-transition: opacity .2s linear;
+  -o-transition: opacity .2s linear;
+  transition: opacity .2s linear;
+}
+.chartist-tooltip:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -15px;
+  border: 15px solid transparent;
+  border-top-color: #F4C63D;
+}
+.chartist-tooltip.tooltip-show {
+  opacity: 1;
+}
+
+.ct-area, .ct-line {
+  pointer-events: none;
+}
+
+g.ct-series.hovered path {
+  stroke-width: 3px!important;
+}
+
+g.ct-series.hovered line {
+  stroke-width: 8px!important;
+}
+
+.expandable div {
+  width: 12px;
+  height: 12px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMBAMAAACkW0HUAAAAKlBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKE86IAAAADXRSTlMAARovMD5KYWd4e6L1lZz7BwAAADVJREFUCB1jYEABHApArhkD9yEGBpabDIx7FBhsFzAwSB9ivgUUZ9xTC+QAuSAOkBsApjAJAI43CJ0YSgbLAAAAAElFTkSuQmCC");
+  display: inline-block;
+  margin-top: 0.5em;
+  cursor: pointer;
+}
+
+.expandable div.uparrow {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMBAMAAACkW0HUAAAAIVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABt0UjBAAAACnRSTlMAIDFSVFV1e5GaF1Ut8gAAAC5JREFUCNdjYEAHAmCSfSmYquoKAHEWMYO4VQoMXgFADgMD62IGTgWgiBkDNgAADEYGRgXd3JMAAAAASUVORK5CYII=");
+}
+
+.table_motm_expanded {
+  background-color: #fff0df !important;
+}
+
+.table-matches tbody tr:hover .expandable {
+  opacity: .3;
+}
+
+.ct-series.ct-series-a path.ct-line, .ct-series.ct-series-a line.ct-point { stroke: #2196f3; }
+.ct-series.ct-series-b path.ct-line, .ct-series.ct-series-b line.ct-point { stroke: #e91e63; }
+.ct-series.ct-series-c path.ct-line, .ct-series.ct-series-c line.ct-point { stroke: #8bc34a; }
+.ct-series.ct-series-d path.ct-line, .ct-series.ct-series-d line.ct-point { stroke: #757575; }
+.ct-series.ct-series-e path.ct-line, .ct-series.ct-series-e line.ct-point { stroke: #f57c00; }
+.ct-series.ct-series-f path.ct-line, .ct-series.ct-series-f line.ct-point { stroke: #26c6da; }
+.ct-series.ct-series-g path.ct-line, .ct-series.ct-series-g line.ct-point { stroke: #3f51b5; }
+.ct-series.ct-series-h path.ct-line, .ct-series.ct-series-h line.ct-point { stroke: #66bb6a; }
+.ct-series.ct-series-i path.ct-line, .ct-series.ct-series-i line.ct-point { stroke: #263238; }
+.ct-series.ct-series-j path.ct-line, .ct-series.ct-series-j line.ct-point { stroke: #ffab00; }
+.ct-series.ct-series-k path.ct-line, .ct-series.ct-series-k line.ct-point { stroke: #4fc3f7; }
+.ct-series.ct-series-l path.ct-line, .ct-series.ct-series-l line.ct-point { stroke: #9c27b0; }
+.ct-series.ct-series-m path.ct-line, .ct-series.ct-series-m line.ct-point { stroke: #26a69a; }
+.ct-series.ct-series-n path.ct-line, .ct-series.ct-series-n line.ct-point { stroke: #78909c; }
+.ct-series.ct-series-o path.ct-line, .ct-series.ct-series-o line.ct-point { stroke: #fc0214; }
+.ct-series.ct-series-p path.ct-line, .ct-series.ct-series-p line.ct-point { stroke: #7c4dff; }
+.ct-series.ct-series-q path.ct-line, .ct-series.ct-series-q line.ct-point { stroke: #795548; }
+.ct-series.ct-series-r path.ct-line, .ct-series.ct-series-r line.ct-point { stroke: #aeea00; }
+.ct-series.ct-series-s path.ct-line, .ct-series.ct-series-s line.ct-point { stroke: #bdbdbd; }
+.ct-series.ct-series-t path.ct-line, .ct-series.ct-series-t line.ct-point { stroke: #e64a19; }

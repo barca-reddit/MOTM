@@ -1,18 +1,49 @@
 $(document).ready(function() {
 
+var players,matches,ratings,meta;
+var all_data = [];
+
+$.when(
+    $.getJSON('./data/players.json', function(data) {
+        all_data.push(data);
+    }),
+    $.getJSON('./data/matches.json', function(data) {
+        all_data.push(data);
+    }),
+    $.getJSON('./data/ratings.json', function(data) {
+        all_data.push(data);
+    }),
+    $.getJSON('./data/meta.json', function(data) {
+        all_data.push(data);
+    }),
+    $.getScript( './js/functions.js', function( data, textStatus, jqxhr ) {
+        console.log( jqxhr.status ); // 200
+    })
+    ).then(function() {
+        players = all_data[0];
+        matches = all_data[1];
+        ratings = all_data[2];
+        meta = all_data[3];
+        main();
+});
+
+function main() {
+
 var last_match = matches[matches.length-1];
 var latest_month_data = 'Table ' + month_num_str(last_match.month) + ' ' + last_match.year + ':';
 var last_update = 'Last update: ' + meta[0].last_update;
 
+countdown_clock(meta);
+
 $('.latest-month').text(latest_month_data);
 $('.last-update').text(last_update);
-$('.table-season-home').replaceWith(table_home(12));
-$('.table-monthly-home').replaceWith(table_home(12,1));
+$('.table-season-home tbody').replaceWith(standings_table_data(12));
+$('.table-monthly-home tbody').replaceWith(standings_table_data(12,last_match.month));
 $('.post-match-thread-home').attr('href','https://redd.it/' + last_match.thread);
 $('.post-match-thread-home').text(
     last_match.day
     + '-' +
-    last_match.month
+    month_num_str(last_match.month)
     + '-' +
     last_match.year
     + ' ' +
@@ -28,63 +59,40 @@ $('.post-match-thread-home').text(
     + ') '
 );
 
-function month_num_str(month) {
-    switch (month) {
-        case 1:
-        return 'Jan';
-        case 2:
-        return 'Feb';
-        case 3:
-        return 'Mar';
-        case 4:
-        return 'Apr';
-        case 5:
-        return 'May';
-        case 6:
-        return 'Jun';
-        case 7:
-        return 'Jul';
-        case 8:
-        return 'Aug';
-        case 9:
-        return 'Sep';
-        case 10:
-        return 'Oct';
-        case 11:
-        return 'Nov';
-        case 12:
-        return 'Dec';
-    }
-}
-
-
-
 $.each(ratings, function(i, item) {
     if (ratings[i].points === 12 && ratings[i].match_id == last_match.match_id) {
         $('img.latest_motm_1').attr('src','img/players/' + ratings[i].player_id + '.jpg');
-        $('h5.latest_motm_1').text(ratings[i].player_name);
+        $('div.latest_motm_1 h6').text(ratings[i].player_name);
+        $('div.latest_motm_1 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
     }
     else if (ratings[i].points === 9 && ratings[i].match_id == last_match.match_id) {
         $('img.latest_motm_2').attr('src','img/players/' + ratings[i].player_id + '.jpg');
-        $('h5.latest_motm_2').text(ratings[i].player_name);
+        $('div.latest_motm_2 h6').text(ratings[i].player_name);
+        $('div.latest_motm_2 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
     }
     else if (ratings[i].points === 6 && ratings[i].match_id == last_match.match_id) {
         $('img.latest_motm_3').attr('src','img/players/' + ratings[i].player_id + '.jpg');
-        $('h5.latest_motm_3').text(ratings[i].player_name);
+        $('div.latest_motm_3 h6').text(ratings[i].player_name);
+        $('div.latest_motm_3 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
+    }
+    else if (ratings[i].points === 4 && ratings[i].match_id == last_match.match_id) {
+        $('img.latest_motm_4').attr('src','img/players/' + ratings[i].player_id + '.jpg');
+        $('div.latest_motm_4 h6').text(ratings[i].player_name);
+        $('div.latest_motm_4 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
+    }
+    else if (ratings[i].points === 2 && ratings[i].match_id == last_match.match_id) {
+        $('img.latest_motm_5').attr('src','img/players/' + ratings[i].player_id + '.jpg');
+        $('div.latest_motm_5 h6').text(ratings[i].player_name);
+        $('div.latest_motm_5 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
     }
 });
 
 
 
-function table_home(length,month) {
+function standings_table_data(length,month) {
     var table = [];
-    var html = '';
+    var html = '<tbody>';
     var match_list = [];
-
-    var html = (!month) ? '<table class="table table-sm table-striped text-center table-season-home">' : '<table class="table table-sm table-striped text-center table-monthly-home">';
-
-    html += '<thead><tr><th>#</th><th class="text-left">Player Name</th><th>Total Votes</th><th>Total Points</th></tr></thead>\
-            <tbody>';
     
     if (!month) {
         for (i=0;i<players.length;i++) {
@@ -110,7 +118,6 @@ function table_home(length,month) {
             </tr>'
         }
 
-        html += '</tbody></table>';
         return(html);
     }
 
@@ -148,148 +155,76 @@ function table_home(length,month) {
             </tr>'
         }
 
-        html += '</tbody></table>';
+        html += '</tbody>';
+
         return(html);
         
     }
 }
 
-
-setInterval(function () {  
-    var current_date = new Date().getTime();
-    var target_date = (meta[0].upcoming_match <= current_date) ? nearest_match = meta[0].next_match : nearest_match = meta[0].upcoming_match;
-    
-    var days, hours, minutes, seconds;
-    var seconds_left = (target_date - current_date) / 1000;
-    
-    days = parseInt(seconds_left / 86400);
-    seconds_left = seconds_left % 86400;
-    hours = parseInt(seconds_left / 3600);
-    seconds_left = seconds_left % 3600;
-    minutes = parseInt(seconds_left / 60);
-    seconds = parseInt(seconds_left % 60);
-
-    var final = 'Next match in: ' + days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
-
-    $('.countdown').text(final);
-
-}, 1000);
-
-function table_data(data) {
-    var data_array = [];
-    var last_x_matches;
-    var iter = 0;
-
+function line_chart_data(data) {
     var kw = data.type;
+    var object = { labels: [], series: [] };
 
-    console.log(data.length);
-
-    if (data.length !== 'all') {
-        last_x_matches = matches.slice(1).slice(-data.length);
-        for (i=0;i<data.length;i++) {
-            data_array[i] = [last_x_matches[i].day + '-' + month_num_str(last_x_matches[i].month)];
-        }
-        iter = data_array.length;
-    }
-    else {
-        last_x_matches = matches;
-        for (i=0;i<matches.length;i++) {
-            data_array[i] = [last_x_matches[i].day + '-' + month_num_str(last_x_matches[i].month)];
-        }
-        iter = matches.length;
-    }
-
-    if (data.players.length > 1) {
-        for (i=0;i<data.players.length;i++) {
-            data.players[i][kw] = 0;
-        }
+    for (i=0;i<matches.length;i++) {
+        object.labels.push(month_num_str(matches[i].month) + ' ' + matches[i].day);
     }
 
     for (i=0;i<data.players.length;i++) {
-        for (j=0;j<iter;j++) {
-            var temp = ratings.filter(function(item) { return ( item.player_name === data.players[i].name && item.match_id === last_x_matches[j].match_id) });
-            if (temp[0] !== undefined) {
-                data.players[i][kw] += temp[0][kw];
-                data_array[j].push(data.players[i][kw]);
-                if (!data.sum) { data.players[i][kw] = 0 }
+        var totals = 0;
+        for (j=0;j<matches.length;j++) {
+            var temp = ratings.filter(function(item) { return ( item.player_name === data.players[i].name && item.match_id === matches[j].match_id) });
+            if (object.series[i] === undefined) {
+                object.series[i] = [];
+                (temp[0] !== undefined) ? totals += temp[0][kw] : totals = totals;
+                (temp[0] !== undefined) ? object.series[i].push({ meta: matches[j].opponent, value: totals }) : object.series[i].push({meta: matches[j].opponent, value: totals});
             }
             else {
-                data_array[j].push(data.players[i][kw]);
-                if (!data.sum) { data.players[i][kw] = 0 }
+                (temp[0] !== undefined) ? totals += temp[0][kw] : totals = totals;
+                (temp[0] !== undefined) ? object.series[i].push({ meta: matches[j].opponent, value: totals }) : object.series[i].push({meta: matches[j].opponent, value: totals});
             }
         }
     }
 
-    console.log(data_array);
-    return(data_array);
+    console.log(object);
+
+    return object;
+
 }
 
-var args = { location: '#my_chart', type: 'votes', sum: true, length: 'all', players: [ {name: 'Ter Stegen'}, {  name: 'Busquets' }, { name: 'Umtiti' }, {name: 'Sergi Roberto'}, {name: 'Paulinho'}, {name: 'Semedo'}, {name: 'Alba'}] };
 
-google.charts.load('current', {'packages':['line']});
-google.charts.setOnLoadCallback(function(){
-    drawChart(args);
-});
+var args = { type: 'points', sum: true, length: 'all', players: [{name: 'Ter Stegen'},{name: 'Semedo'},{name: 'Pique'},{name: 'Rakitic'},{name: 'Busquets'},{name: 'Denis Suarez'},{name: 'Iniesta'},{name: 'Suarez'},{name: 'Dembele'},{name: 'Rafinha'},{name: 'Cillessen'},{name: 'Mascherano'},{name: 'Paulinho'},{name: 'Deulofeu'},{name: 'Alba'},{name: 'Digne'},{name: 'Sergi Roberto'},{name: 'Vidal'},{name: 'Umtiti'}] };
 
-function drawChart(args) {
-    console.log('start');
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Date');
-
-    for (i=0;i<args.players.length;i++) {
-        data.addColumn('number', args.players[i].name);
-    }
-
-    data.addRows(table_data(args));
-
-    var options = {
-        chart: {
-            title: 'Player votes (Last ' + args.length + ' games)'
-        },
-        vAxis: {
-            title: 'Votes'
+var options = {
+    fullWidth: true,
+    axisX: {
+        labelInterpolationFnc: function(value, index) {
+            return index % 2 === 0 ? value : null;
         }
-    };
-
-    var chart = new google.charts.Line($(args.location)[0]);
-
-    chart.draw(data, google.charts.Line.convertOptions(options));
+    },
+    lineSmooth: false,
+    plugins: [
+        Chartist.plugins.tooltip()
+    ]
+}
+  
+var chart = new Chartist.Line('.page-home-main-chart', line_chart_data(args) , options);
+for (i=0;i<args.players.length;i++) {
+    $('.col-10.page-home-main-chart').append('<button type="button" class="btn btn-sm text-white m-1" style="background-color:' + chart_color(i) + '">' + args.players[i].name + '</button>');
 }
 
-$('.top3-click').click(function() {
-    var list = [];
-    $('.top3-click').each(function(){
-        list.push( { name: $(this).prev().text().trim() });
-    });
+$('.page-home-main-chart button').hover(function() {
+    $('.page-home-main-chart g.ct-series').eq($(this).index()).addClass('hovered');
+    $('.page-home-main-chart g.ct-series').eq($(this).index()).addClass('hovered');
+}, function() {
+    $('.page-home-main-chart g.ct-series').eq($(this).index()).removeClass('hovered');
+    $('.page-home-main-chart g.ct-series').eq($(this).index()).removeClass('hovered');
+})
 
-    console.log(list);
 
-    var popup = { location: '#popup-chart', type: 'votes', sum: true, length: 'all', players: list };
-    drawChart(popup);
-    
-    $('.popup').css({visibility:'visible'});
-    $('.popup').animate({
-        opacity: 1
-    }, 500, function() {
-    // Animation complete.
-    });
-});
 
-$('.popup .modal-footer button, .popup .close').click(function() {
-    $('.popup').animate({
-        opacity: 0,
-    }, 500, function() {
-        $('.popup').css({visibility:'hidden'});
-    });
-});
-
-$(window).resize(function(event){
-    drawChart(args);
-});
-
-function table_matches() {
+function match_list_html() {
     var html;
-
     for (i=0;i<matches.length;i++) {
         html +=
         '<tr>' +
@@ -299,14 +234,32 @@ function table_matches() {
         '<td>' + matches[i].home_score + '-' + matches[i].away_score  + '</td>' +
         '<td>' + matches[i].away_team + '</td>' +
         '<td>' + '<a class="text-primary" href="https://redd.it/' + matches[i].thread + '" target="_blank">Thread</a></td>' +
+        '<td class="expandable"><div match_id="' + matches[i].match_id + '"></div></td>' +
         '</tr>'
     }
-
     return html;
 }
 
+function pagination_html() {
+    var html = '<li class="page-item prev"><a class="page-link">&laquo;</a></li>';
+    var available_months = matches.map(function(item){ return item.month }).filter(function(value,index,self){ return self.indexOf(value) === index });
 
+    for (i=0;i<available_months.length;i++) {
+        if (i === (available_months.length-1)) {
+            html += '<li class="page-item month active">' +
+            '<a class="page-link">' + month_num_str(available_months[i]) + '</a>' +
+            '</li>'
+        }
+        else {
+            html += '<li class="page-item month">' +
+                    '<a class="page-link">' + month_num_str(available_months[i]) + '</a>' +
+                    '</li>'
+        }
+    }
 
+    html += '<li class="page-item next"><a class="page-link">&raquo;</a></li>';
+    return html;
+}
 
 $('.main-menu').click(function() {
     var clicked = $(this).attr('href').replace('#','');
@@ -319,7 +272,151 @@ $('.main-menu').click(function() {
             $('.page-' + clicked).addClass('visible-page');
         }
         else {
-            $('.page-matches .table-matches tbody').html(table_matches());
+            $('.page-matches .table-matches tbody').html(match_list_html());
+            event_listener_matches();
+            $('.visible-page').removeClass('visible-page');
+            $('.page-' + clicked).addClass('visible-page');
+        }
+    }
+
+    else if (clicked === 'tables') {
+        if ($('.page-tables .table-season-tables tbody tr').length > 0) {
+            $('.visible-page').removeClass('visible-page');
+            $('.page-' + clicked).addClass('visible-page');
+        }
+        else {
+            $('.page-tables .pagination').append(pagination_html());
+            $('.page-tables .table-season-tables tbody').replaceWith(standings_table_data(25));
+            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(25,1));
+            event_listener_tables();
+            $('.visible-page').removeClass('visible-page');
+            $('.page-' + clicked).addClass('visible-page');
+        }
+    }
+
+
+    else if (clicked === 'records') {
+        if ($('.page-records p').length > 0) {
+            $('.visible-page').removeClass('visible-page');
+            $('.page-' + clicked).addClass('visible-page');
+        }
+        else {
+
+            var max_votes = ratings;
+            max_votes.sort(function(a,b) {
+                return a.votes < b.votes;
+            });
+
+            max_votes = max_votes.slice(0,5);
+            max_votes.reverse(); //reversing array so jquery.after() works properly
+
+            for (i=0;i<max_votes.length;i++) {
+                var match = matches.filter(function(item){ return item.match_id === max_votes[i].match_id });
+                $('.page-records .record-votes').after(
+                    '<p>' + max_votes[i].player_name +
+                    ': <strong>' + max_votes[i].votes + '</strong>' +
+                    ' votes vs <a href="https://redd.it/' + match[0].thread + '" target="_blank">' + match[0].opponent + '</a>' +
+                    '</p>'
+                );
+            }
+            
+            var max_percentage = ratings;
+
+            max_percentage.sort(function(a,b) {
+                return a.percentage < b.percentage;
+            });
+
+            console.log(max_percentage);
+
+            max_percentage = max_percentage.slice(0,5);
+            max_percentage.reverse(); //reversing array so jquery.after() works properly
+
+            for (i=0;i<max_percentage.length;i++) {
+                var match = matches.filter(function(item){ return item.match_id === max_percentage[i].match_id });
+                $('.page-records .record-percentage').after(
+                    '<p>' + max_percentage[i].player_name +
+                    ': <strong>' + max_percentage[i].percentage + '</strong>' +
+                    '% vs <a href="https://redd.it/' + match[0].thread + '" target="_blank">' + match[0].opponent + '</a>' +
+                    '</p>'
+                );
+            }
+
+            var motm_list = ratings.filter(function(item){ return item.points === 12 });
+            var unique_names = motm_list.map(function(obj) { return obj.player_name; });
+            unique_names = unique_names.filter(function(v,i) { return unique_names.indexOf(v) == i; });
+
+            var motm_final = [];
+
+            for (i=0;i<unique_names.length;i++) {
+                motm_final[i] = {name: unique_names[i], count: motm_list.filter(function(val){return val.player_name === unique_names[i]}).length }
+            }
+
+            motm_final.sort(function(a,b) {
+                return a.count < b.count;
+            })
+
+            motm_final = motm_final.slice(0,5);
+            motm_final = motm_final.reverse(); //reversing array so jquery.after() works properly
+
+            for (i=0;i<motm_final.length;i++) {
+                $('.page-records .record-motm').after(
+                    '<p>' + motm_final[i].name +
+                    ': <strong>' + motm_final[i].count + '</strong>' +
+                    ' wins</p>'
+                );
+            }
+
+            var unique_match_ids = ratings.map(function(item){ return item.match_id });
+            unique_match_ids = unique_match_ids.filter(function(value,index,self){ return self.indexOf(value) === index });
+
+            var match_total_votes = [];
+
+            for (i=0;i<unique_match_ids.length;i++) {
+                var match = ratings.filter(function(item){ return item.match_id === unique_match_ids[i] });
+                var sum = match.map(function(item){ return item.votes }).reduce(function(a, b){ return a + b; }, 0);
+                match_total_votes[i] = {match_id: match[0].match_id, count: sum };
+            }
+
+            var match_total_votes_low = match_total_votes.slice(0);
+
+            match_total_votes.sort(function(a,b) {
+                return a.count < b.count;
+            });
+
+            console.log(match_total_votes);
+
+            match_total_votes_low.sort(function(a,b) {
+                return a.count > b.count;
+            });
+
+            console.log(match_total_votes_low);
+
+            match_total_votes = match_total_votes.slice(0,5);
+            match_total_votes = match_total_votes.reverse();
+
+            match_total_votes_low = match_total_votes_low.slice(0,5);
+            match_total_votes_low = match_total_votes_low.reverse();
+
+
+            for (i=0;i<match_total_votes.length;i++) {
+                var temp = matches.filter(function(item) { return item.match_id === match_total_votes[i].match_id });
+                $('.page-records .record-match-votes').after(
+                    '<p><a href="https://redd.it/' + temp[0].thread + '" target="blank_">' + temp[0].home_team + ' vs ' +
+                    temp[0].away_team + '</a>: ' +
+                    '<strong>' + match_total_votes[i].count + '</strong> ' + 'total votes</p>'
+                );   
+            }
+
+            for (i=0;i<match_total_votes_low.length;i++) {
+                var temp = matches.filter(function(item) { return item.match_id === match_total_votes_low[i].match_id });
+                $('.page-records .record-match-votes-low').after(
+                    '<p><a href="https://redd.it/' + temp[0].thread + '" target="blank_">' + temp[0].home_team + ' vs ' +
+                    temp[0].away_team + '</a>: ' +
+                    '<strong>' + match_total_votes_low[i].count + '</strong> ' + 'total votes</p>'
+                );   
+            }
+
+
             $('.visible-page').removeClass('visible-page');
             $('.page-' + clicked).addClass('visible-page');
         }
@@ -331,9 +428,157 @@ $('.main-menu').click(function() {
     }
 });
 
+function event_listener_tables() {
+    $('.page-tables .pagination li.next').click(function() {
+        if ($('.page-tables .pagination .month').last().hasClass('active') === false) {
+            var index = $('.page-tables .pagination .month.active').index();
+            $('.page-tables .pagination .month.active').removeClass('active');
+            $('.page-tables .pagination .month').eq(index).addClass('active');
+            var month = month_str_num($('.page-tables .pagination .month.active').text());
+            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(25,month));
+        }
+    });
+
+    $('.page-tables .pagination li.prev').click(function() {
+        if ($('.page-tables .pagination .month').first().hasClass('active') === false) {
+            var index = $('.page-tables .pagination .month.active').index();
+            $('.page-tables .pagination .month.active').removeClass('active');
+            $('.page-tables .pagination .month').eq(index -2).addClass('active');
+            var month = month_str_num($('.page-tables .pagination .month.active').text());
+            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(25,month));
+        }
+    });
+
+    $('.page-tables .pagination li.month').click(function() {
+        $('.page-tables .pagination .month.active').removeClass('active');
+        $(this).addClass('active');
+        var month = month_str_num($('.page-tables .pagination .month.active').text());
+        $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(25,month));
+    });
+}
 
 
+function event_listener_matches() {
+    $('.page-matches .table-matches tbody .expandable div').click(function() {
+        var table_match_id = $(this).attr('match_id');
+
+        if ($(this).parent().parent().next().hasClass('table_motm_expanded')) {
+            $(this).parent().parent().nextUntil('tr:not(".table_motm_expanded")').remove();
+            $(this).removeClass('uparrow');
+        }
+
+        else {
+            $(this).addClass('uparrow');
+            var table_motm_ratings = ratings.filter(function(item){ return item.match_id == table_match_id});
+            console.log(table_motm_ratings);
+            table_motm_ratings.reverse();
+            for (i=0;i<table_motm_ratings.length;i++) {
+                $(this).parent().parent().after(
+                    '<tr class="table_motm_expanded small">' +
+                    '<td>' + (table_motm_ratings.length-i) + '</td>' +
+                    '<td>' + table_motm_ratings[i].player_name + '</td>' +
+                    '<td>' + table_motm_ratings[i].votes + ' votes</td>' +
+                    '<td>' + table_motm_ratings[i].percentage + '%</td>' +
+                    '<td>' + table_motm_ratings[i].points + ' points</td>' +
+                    '<td>&nbsp;</td>' +
+                    '<td>&nbsp;</td>' +
+                    '</tr>'
+                )
+            }
+            $(this).parent().parent().after(
+                '<tr class="table_motm_expanded">' +
+                '<th>#</th>' +
+                '<th>Player name</th>' +
+                '<th>Votes</th>' +
+                '<th>Percentage</th>' +
+                '<th>Points</th>' +
+                '<th>&nbsp;</th>' +
+                '<th>&nbsp;</th>' +
+                '</tr>'
+            )
+        }
+    });
+}
+
+
+} //end of main
 }); //end of onload
 
 
 
+// var data = {
+//     labels: ['Jan 21', 'Jan 25', 'Jan 27','Jan 21', 'Jan 25', 'Jan 27','Jan 21', 'Jan 25', 'Jan 27','Jan 21', 'Jan 25', 'Jan 27'],
+//     series: [
+//                 [
+//                     {meta: 'Real Madrid (A)', value: 12},
+//                     {meta: 'Valencia (A)', value: 45},
+//                     {meta: 'Real Sociedad', value: 21},
+//                     {meta: 'Getafe', value: 25},
+//                     {meta: 'Girona', value: 63}
+//                 ],
+//                 [
+//                     {meta: 'Real Madrid (A)', value: 52},
+//                     {meta: 'Valencia (A)', value: 51},
+//                     {meta: 'Real Sociedad', value: 121},
+//                     {meta: 'Getafe', value: 51},
+//                     {meta: 'Girona', value: 43}
+//                 ]
+//         ]
+// }
+
+// google.charts.load('current', {'packages':['line']});
+// google.charts.setOnLoadCallback(function(){
+//     drawChart(args);
+// });
+
+// function drawChart(args) {
+//     console.log('start');
+//     var data = new google.visualization.DataTable();
+//     data.addColumn('string', 'Date');
+
+//     for (i=0;i<args.players.length;i++) {
+//         data.addColumn('number', args.players[i].name);
+//     }
+
+//     data.addRows(table_data(args));
+
+//     var options = {
+//         chart: {
+//             title: 'Player votes (Last ' + args.length + ' games)'
+//         },
+//         vAxis: {
+//             title: 'Votes'
+//         }
+//     };
+
+//     var chart = new google.charts.Line($(args.location)[0]);
+
+//     chart.draw(data, google.charts.Line.convertOptions(options));
+// }
+
+// $('.top3-click').click(function() {
+//     var list = [];
+//     $('.top3-click').each(function(){
+//         list.push( { name: $(this).prev().text().trim() });
+//     });
+
+//     console.log(list);
+
+//     var popup = { location: '#popup-chart', type: 'votes', sum: true, length: 'all', players: list };
+//     drawChart(popup);
+    
+//     $('.popup').css({visibility:'visible'});
+//     $('.popup').animate({
+//         opacity: 1
+//     }, 500, function() {
+//     // Animation complete.
+//     });
+// });
+
+// $('.popup .modal-footer button, .popup .close').click(function() {
+//     $('.popup').animate({
+//         opacity: 0,
+//     }, 500, function() {
+//         $('.popup').css({visibility:'hidden'});
+//     });
+// });

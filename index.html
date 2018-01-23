@@ -4,19 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Reddit Barca MOTM stats</title>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" integrity="sha256-c0m8xzX5oOBawsnLVpHnU2ieISOvxi584aNElFl2W6M=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <!-- <script src="js/load_json.js"></script> -->
+  <!-- Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.bundle.min.js" integrity="sha384-VspmFJ2uqRrKr3en+IG0cIq1Cl/v/PHneDw6SQZYgrcr8ZZmZoQ3zhuGfMnSR/F2" crossorigin="anonymous"></script>
-  <script src="js/load_json.js"></script>
-  <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.3/sandstone/bootstrap.min.css" rel="stylesheet" integrity="sha384-XNRTCesHENaXoVVjLx3Vm0rmwmS4W2g5w0xwZQIDPDvT4IDa/HRIvwb8CoH7/JPW" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.3/yeti/bootstrap.min.css" rel="stylesheet" integrity="sha384-xpQNcoacYF/4TKVs2uD3sXyaQYs49wxwEmeFNkOUgun6SLWdEbaCOv8hGaB9jLxt" crossorigin="anonymous">
+  <!-- Chartist -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+  <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+  <script src="https://unpkg.com/chartist-plugin-tooltips@0.0.17"></script>
+  <!-- Page CSS -->
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 
   <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• NAVIGATION •••••••••••••••••••••••••••••••••••••••••••••••••• -->
 
-  <nav class="navbar navbar-expand-sm navbar-dark bg-primary page-navigation mb-3">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-primary page-navigation mb-1">
     <div class="container">
       <a class="navbar-brand main-menu" href="#home">Home</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
@@ -28,16 +33,16 @@
             <a class="nav-link main-menu" href="#players">Players <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link main-menu disabled" href="#matches">Matches</a>
+            <a class="nav-link main-menu" href="#matches">Matches</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link main-menu disabled" href="#tables">Tables</a>
+            <a class="nav-link main-menu" href="#tables">Tables</a>
           </li>
           <li class="nav-item">
             <a class="nav-link main-menu disabled" href="#charts">Charts</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link main-menu disabled" href="#records">Records</a>
+            <a class="nav-link main-menu" href="#records">Records</a>
           </li>
         </ul>
       </div>
@@ -48,51 +53,72 @@
   <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• HOME PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
 
   <div class="page-home main-area visible-page">
-
-    <div class="container">
-      <div class="row justify-content-between pb-3 pt-2">
-        <div class="col-md-3 text-center">
-          <h2 class="h2">1st place:</h2>
+    <div class="container bg-secondary border border-secondary mb-3">
+      <div class="row justify-content-center pt-2 pb-3">
+        <div class="col-md-2 text-center">
+          <h4 class="h4">1st place:</h4>
           <div class="card">
             <img class="card-img-top latest_motm_1" src="" alt="Latest MOTM">
-            <div class="card-body pt-2">
-              <h5 class="card-title latest_motm_1 text-nowrap"></h5>
-              <a href="#" class="btn btn-outline-info btn-block top3-click">Player stats</a>
+            <div class="card-body p-0 py-3 latest_motm_1">
+              <h6 class="card-title mb-1 text-nowrap"></h6>
+              <p class="text-muted mb-0"></p>
             </div>
           </div>
         </div>
-        <div class="col-md-3 text-center">
-          <h2 class="h2">2nd place:</h2>
+        <div class="col-md-2 text-center">
+          <h4 class="h4">2nd place:</h4>
           <div class="card">
             <img class="card-img-top latest_motm_2" src="" alt="Latest MOTM">
-            <div class="card-body pt-2">
-              <h5 class="card-title latest_motm_2"></h5>
-              <a href="#" class="btn btn-outline-info btn-block top3-click">Player stats</a>
+            <div class="card-body p-0 py-3 latest_motm_2">
+              <h6 class="card-title mb-1 text-nowrap"></h6>
+              <p class="text-muted mb-0"></p>
             </div>
           </div>
         </div>
-        <div class="col-md-3 text-center">
-          <h2 class="h2">3rd place:</h2>
+        <div class="col-md-2 text-center">
+          <h4 class="h4">3rd place:</h4>
           <div class="card">
             <img class="card-img-top latest_motm_3" src="" alt="Latest MOTM">
-            <div class="card-body pt-2">
-              <h5 class="card-title latest_motm_3"></h5>
-              <a href="#" class="btn btn-outline-info btn-block top3-click">Player stats</a>
+            <div class="card-body p-0 py-3 latest_motm_3">
+              <h6 class="card-title mb-1 text-nowrap"></h6>
+              <p class="text-muted mb-0"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 text-center">
+          <h4 class="h4">4th place:</h4>
+          <div class="card">
+            <img class="card-img-top latest_motm_4" src="" alt="Latest MOTM">
+            <div class="card-body p-0 py-3 latest_motm_4">
+              <h6 class="card-title mb-1 text-nowrap"></h6>
+              <p class="text-muted mb-0"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 text-center">
+          <h4 class="h4">5th place:</h4>
+          <div class="card">
+            <img class="card-img-top latest_motm_5" src="" alt="Latest MOTM">
+            <div class="card-body p-0 py-3 latest_motm_5">
+              <h6 class="card-title mb-1 text-nowrap"></h6>
+              <p class="text-muted mb-0"></p>
             </div>
           </div>
         </div>
       </div>
-      <div class="row bg-dark pt-1 mb-2 text-light text-center">
+      <div class="row bg-dark pt-1 text-light text-center">
         <div class="col align-middle">
-          <h5 class="h5"><a class="text-white post-match-thread-home" href="#" target="_blank"></a></h5>
+          <h6 class="h6 mb-1"><a class="text-white post-match-thread-home" href="#" target="_blank"></a></h6>
         </div>
       </div>
     </div><!-- container -->
 
-    <div class="container">
+    <div class="container mb-3">
       <div class="row">
-        <div class="col">
-          <div id="my_chart" class="chart"></div>
+        <div class="page-home-main-chart ct-chart ct-major-tenth"></div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-10 page-home-main-chart text-center">
         </div>
       </div>
     </div><!-- container -->
@@ -101,12 +127,32 @@
       <div class="row">
         <div class="col-md-6">
           <h2 class="h2 latest-month"></h2>
-          <table class="table table-sm table-striped table-monthly-home">
+          <table class="table table-sm table-striped text-center table-monthly-home">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th class="text-left">Player Name</th>
+                <th>Total Votes</th>
+                <th>Total Points</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
           </table>
         </div>
         <div class="col-md-6">
           <h2 class="h2">Season table:</h2>
-          <table class="table table-sm table-striped table-season-home">
+          <table class="table table-sm table-striped text-center table-season-home">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th class="text-left">Player Name</th>
+                <th>Total Votes</th>
+                <th>Total Points</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
           </table>
         </div>
       </div>
@@ -291,17 +337,88 @@
       <table class="table table-sm table-striped text-center table-matches">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Comp</th>
-            <th>Home</th>
-            <th>Result</th>
-            <th>Away</th>
-            <th>Thread</th>
+            <th class="col-2">Date</th>
+            <th class="col-2">Comp</th>
+            <th class="col-2">Home</th>
+            <th class="col-1">Result</th>
+            <th class="col-2">Away</th>
+            <th class="col-2">Thread</th>
+            <th class="col-1">Details</th>
           </tr>
         </thead>
         <tbody>
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• RECORDS PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+
+  <div class="page-records main-area">
+    <div class="container mt-3">
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-4">
+          <h4 class="record-votes mb-4">Highest vote count:</h4>
+        </div>
+        <div class="col-md-4">
+          <h4 class="record-percentage mb-4">Highest percentage:</h4>
+        </div>
+        <div class="col-md-4">
+          <h4 class="record-motm mb-4">Most times MOTM:</h4>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <h4 class="record-match-votes mb-4">Highest match vote activity:</h4>
+        </div>
+        <div class="col-md-4">
+          <h4 class="record-match-votes-low mb-4">Lowest match vote activity:</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• TABLES PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+
+  <div class="page-tables main-area">
+    <div class="container mt-3">
+      <div class="row justify-content-center">
+        <div class="col-sm-9 text-center">
+          <div>
+            <h1 class="mb-3">Monthly Table</h1>
+            <ul class="pagination flex-wrap justify-content-center">
+            </ul>
+          </div>
+          <table class="table table-sm table-striped text-center table-monthly-tables align-text-bottom">
+            <thead>
+              <tr>
+                <th class="col-1">#</th>
+                <th class="col-7 text-left">Player Name</th>
+                <th class="col-2">Total Votes</th>
+                <th class="col-2">Total Points</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-sm-9">
+          <h1 class="text-center mb-3">Season 2017/18</h1>
+          <table class="table table-sm table-striped text-center table-season-tables">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th class="text-left">Player Name</th>
+                <th>Total Votes</th>
+                <th>Total Points</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
     </div>
   </div>
 
