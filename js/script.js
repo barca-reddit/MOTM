@@ -38,8 +38,8 @@ countdown_clock(meta);
 
 $('.latest-month').text(latest_month_data);
 $('.last-update').text(last_update);
-$('.table-season-home tbody').replaceWith(standings_table_data(12));
-$('.table-monthly-home tbody').replaceWith(standings_table_data(12,last_match.month));
+$('.table-season-home tbody').replaceWith(standings_table_data(15));
+$('.table-monthly-home tbody').replaceWith(standings_table_data(15,last_match.month));
 $('.post-match-thread-home').attr('href','https://redd.it/' + last_match.thread);
 $('.post-match-thread-home').text(
     last_match.day
@@ -92,6 +92,10 @@ function standings_table_data(length,month) {
     var table = [];
     var html = '<tbody>';
     var match_list = [];
+    var trophies = ['data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAMAAAAolt3jAAAAllBMVEUAAADtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxHtwxFW40iEAAAAMXRSTlMAAQIFBwgJCgwODxITFBYhIyUpLzg7PVZeX2h0eICYur7BxcfKz9HT1d7o6evx9fn7Z9l27AAAAHBJREFUCB1FwYsWgVAQBdBTiqTII6Jwi8i78/8/Z5q7Wu0NkbUUNx9WS7WFKIyh9TAmB+PgQ7ULZkQzRUWVIKyxPnsHqlFcr4D0dWXnW94TCHdxJPncROidyDkGS14wcPZ8T9DL2GnGsH5UKSzHVRB/ce8RUTuczWAAAAAASUVORK5CYII=',
+                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAMAAAAolt3jAAAAllBMVEUAAACVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaaVpaYLwV2+AAAAMXRSTlMAAQIFBwgJCgwODxITFBYhIyUpLzg7PVZeX2h0eICYur7BxcfKz9HT1d7o6evx9fn7Z9l27AAAAHBJREFUCB1FwYsWgVAQBdBTiqTII6Jwi8i78/8/Z5q7Wu0NkbUUNx9WS7WFKIyh9TAmB+PgQ7ULZkQzRUWVIKyxPnsHqlFcr4D0dWXnW94TCHdxJPncROidyDkGS14wcPZ8T9DL2GnGsH5UKSzHVRB/ce8RUTuczWAAAAAASUVORK5CYII=',
+                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAMAAAAolt3jAAAAllBMVEUAAADVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCzVjCyZOFHoAAAAMXRSTlMAAQIFBwgJCgwODxITFBYhIyUpLzg7PVZeX2h0eICYur7BxcfKz9HT1d7o6evx9fn7Z9l27AAAAHBJREFUCB1FwYsWgVAQBdBTiqTII6Jwi8i78/8/Z5q7Wu0NkbUUNx9WS7WFKIyh9TAmB+PgQ7ULZkQzRUWVIKyxPnsHqlFcr4D0dWXnW94TCHdxJPncROidyDkGS14wcPZ8T9DL2GnGsH5UKSzHVRB/ce8RUTuczWAAAAAASUVORK5CYII='
+                    ];
     
     if (!month) {
         for (i=0;i<players.length;i++) {
@@ -133,9 +137,24 @@ function standings_table_data(length,month) {
         }
         for (i=0;i<players.length;i++) {
             var list = month_ratings.filter(function(item) { return ( item.player_name === players[i].name ) });
+            var top_3 = list.map(function(x) {
+                if (x.points >= 6) {
+                    return x.points;
+                }
+                
+            });
+            console.log('top3:'  + top_3);
+            var motm_html = '';
+            if (top_3.length > 0) {
+                for (j=0;j<top_3.length;j++) {
+                    if (top_3[j] === 12) { motm_html += '<img src="'+ trophies[0] +'"></img>' }
+                    else if (top_3[j] === 9) { motm_html += '<img src="'+ trophies[1] +'"></img>' }
+                    else if (top_3[j] === 6) { motm_html += '<img src="'+ trophies[2] +'"></img>' }
+                }
+            }
             var total_points = list.map(function(item){ return item.points; }).reduce(function(a, b){ return a + b; }, 0);
             var total_votes = list.map(function(item){ return item.votes; }).reduce(function(a, b){ return a + b; }, 0);
-            table.push({ "name": players[i].name, "votes": total_votes,  "points": total_points })
+            table.push({ "name": players[i].name, "votes": total_votes,  "points": total_points, "motm": motm_html })
         }
 
         table.sort(function(a, b){
@@ -151,6 +170,7 @@ function standings_table_data(length,month) {
             <td class="text-left">'+ table[i].name + '</td>\
             <td>'+ table[i].votes + '</td>\
             <td>'+ table[i].points + '</td>\
+            <td>'+ table[i].motm + '</td>\
             </tr>'
         }
 
@@ -457,6 +477,10 @@ var chart = new Chart(home_chart, {
     options: {
         legend: {
             display:false
+        },
+        tooltips: {
+            mode: 'nearest',
+            intersect: false
         },
         maintainAspectRatio: false
     }
