@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Reddit Barca MOTM stats</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <!-- <script src="js/load_json.js"></script> -->
   <!-- Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.bundle.min.js" integrity="sha384-VspmFJ2uqRrKr3en+IG0cIq1Cl/v/PHneDw6SQZYgrcr8ZZmZoQ3zhuGfMnSR/F2" crossorigin="anonymous"></script>
   <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.3/yeti/bootstrap.min.css" rel="stylesheet" integrity="sha384-xpQNcoacYF/4TKVs2uD3sXyaQYs49wxwEmeFNkOUgun6SLWdEbaCOv8hGaB9jLxt" crossorigin="anonymous">
   <!-- Chartist -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" integrity="sha256-c0m8xzX5oOBawsnLVpHnU2ieISOvxi584aNElFl2W6M=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
   <script src="https://unpkg.com/chartist-plugin-tooltips@0.0.17"></script>
   <!-- Page CSS -->
@@ -116,13 +115,9 @@
     </div><!-- container -->
 
     <div class="container mb-3">
-      <div class="row">
-        <div class="page-home-main-chart ct-chart ct-major-tenth"></div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-10 page-home-main-chart text-center">
-        </div>
-      </div>
+      <div class="chart-container" style="height:200px">
+        <canvas id="home-page-chart"></canvas>
+    </div>
     </div><!-- container -->
 
     <div class="container">
@@ -394,10 +389,10 @@
           <table class="table table-sm table-striped text-center table-monthly-tables align-text-bottom">
             <thead>
               <tr>
-                <th class="col-1">#</th>
-                <th class="col-7 text-left">Player Name</th>
-                <th class="col-2">Total Votes</th>
-                <th class="col-2">Total Points</th>
+                <th>#</th>
+                <th class="text-left">Player Name</th>
+                <th>Total Votes</th>
+                <th>Total Points</th>
               </tr>
             </thead>
             <tbody>

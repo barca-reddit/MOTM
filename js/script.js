@@ -1,5 +1,14 @@
 $(document).ready(function() {
 
+//FAKE LOAD
+// var matches, ratings;
+// $.getJSON('./data/matches.json', function(data) {
+//     matches = data;
+// });
+// $.getJSON('./data/ratings.json', function(data) {
+//     ratings = data;
+// });
+
 function load_json() {
 
     $.when(
@@ -8,16 +17,13 @@ function load_json() {
         $.getJSON('./data/ratings.json'),
         $.getJSON('./data/meta.json'))
         .done(function(j1,j2,j3,j4) {
-            console.log('load_json() end');
             main(j1[0],j2[0],j3[0],j4[0]);
-            console.log('main() called');
     })
 }
 
 load_json();
 
 function main(players,matches,ratings,meta) {
-console.log('main() start');
 
 console.log(players);
 console.log(matches);
@@ -81,8 +87,6 @@ $.each(ratings, function(i, item) {
         $('div.latest_motm_5 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
     }
 });
-
-
 
 function standings_table_data(length,month) {
     var table = [];
@@ -156,64 +160,6 @@ function standings_table_data(length,month) {
         
     }
 }
-
-function line_chart_data(data) {
-    var kw = data.type;
-    var object = { labels: [], series: [] };
-
-    for (i=0;i<matches.length;i++) {
-        object.labels.push(month_num_str(matches[i].month) + ' ' + matches[i].day);
-    }
-
-    for (i=0;i<data.players.length;i++) {
-        var totals = 0;
-        for (j=0;j<matches.length;j++) {
-            var temp = ratings.filter(function(item) { return ( item.player_name === data.players[i].name && item.match_id === matches[j].match_id) });
-            if (object.series[i] === undefined) {
-                object.series[i] = [];
-                (temp[0] !== undefined) ? totals += temp[0][kw] : totals = totals;
-                (temp[0] !== undefined) ? object.series[i].push({ meta: matches[j].opponent, value: totals }) : object.series[i].push({meta: matches[j].opponent, value: totals});
-            }
-            else {
-                (temp[0] !== undefined) ? totals += temp[0][kw] : totals = totals;
-                (temp[0] !== undefined) ? object.series[i].push({ meta: matches[j].opponent, value: totals }) : object.series[i].push({meta: matches[j].opponent, value: totals});
-            }
-        }
-    }
-
-    return object;
-
-}
-
-
-var args = { type: 'points', sum: true, length: 'all', players: [{name: 'Ter Stegen'},{name: 'Semedo'},{name: 'Pique'},{name: 'Rakitic'},{name: 'Busquets'},{name: 'Denis Suarez'},{name: 'Iniesta'},{name: 'Suarez'},{name: 'Dembele'},{name: 'Rafinha'},{name: 'Cillessen'},{name: 'Mascherano'},{name: 'Paulinho'},{name: 'Deulofeu'},{name: 'Alba'},{name: 'Digne'},{name: 'Sergi Roberto'},{name: 'Vidal'},{name: 'Umtiti'}] };
-
-var options = {
-    fullWidth: true,
-    axisX: {
-        labelInterpolationFnc: function(value, index) {
-            return index % 2 === 0 ? value : null;
-        }
-    },
-    lineSmooth: false,
-    plugins: [
-        Chartist.plugins.tooltip()
-    ]
-}
-  
-var chart = new Chartist.Line('.page-home-main-chart', line_chart_data(args) , options);
-for (i=0;i<args.players.length;i++) {
-    $('.col-10.page-home-main-chart').append('<button type="button" class="btn btn-sm text-white m-1" style="background-color:' + chart_color(i) + '">' + args.players[i].name + '</button>');
-}
-
-$('.page-home-main-chart button').hover(function() {
-    $('.page-home-main-chart g.ct-series').eq($(this).index()).addClass('hovered');
-    $('.page-home-main-chart g.ct-series').eq($(this).index()).addClass('hovered');
-}, function() {
-    $('.page-home-main-chart g.ct-series').eq($(this).index()).removeClass('hovered');
-    $('.page-home-main-chart g.ct-series').eq($(this).index()).removeClass('hovered');
-})
-
 
 
 function match_list_html() {
@@ -486,6 +432,52 @@ function event_listener_matches() {
     });
 }
 
+function draw_chart(data) {
+    data.type;
+    data.players;
+    data.location;
+}
+
+var home_chart = $('#home-page-chart')[0].getContext('2d');
+
+var chart = new Chart(home_chart, {
+
+    type: 'bar',
+
+    data: {
+        labels: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.player_name }),
+        datasets: [{
+            label: "Total Votes:",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.votes }),
+        }]
+    },
+
+    options: {
+        legend: {
+            display:false
+        },
+        maintainAspectRatio: false
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 } //end of main
 }); //end of onload
@@ -568,3 +560,64 @@ function event_listener_matches() {
 //         $('.popup').css({visibility:'hidden'});
 //     });
 // });
+
+//vvvvvvvvvvvvvvvv CHARTIST vvvvvvvvvvvvvvvv
+
+// function line_chart_data(data) {
+//     var kw = data.type;
+//     var object = { labels: [], series: [] };
+
+//     for (i=0;i<matches.length;i++) {
+//         object.labels.push(month_num_str(matches[i].month) + ' ' + matches[i].day);
+//     }
+
+//     for (i=0;i<data.players.length;i++) {
+//         var totals = 0;
+//         for (j=0;j<matches.length;j++) {
+//             var temp = ratings.filter(function(item) { return ( item.player_name === data.players[i].name && item.match_id === matches[j].match_id) });
+//             if (object.series[i] === undefined) {
+//                 object.series[i] = [];
+//                 (temp[0] !== undefined) ? totals += temp[0][kw] : totals = totals;
+//                 (temp[0] !== undefined) ? object.series[i].push({ meta: matches[j].opponent, value: totals }) : object.series[i].push({meta: matches[j].opponent, value: totals});
+//             }
+//             else {
+//                 (temp[0] !== undefined) ? totals += temp[0][kw] : totals = totals;
+//                 (temp[0] !== undefined) ? object.series[i].push({ meta: matches[j].opponent, value: totals }) : object.series[i].push({meta: matches[j].opponent, value: totals});
+//             }
+//         }
+//     }
+
+//     return object;
+
+// }
+
+
+// var args = { type: 'points', sum: true, length: 'all', players: [{name: 'Ter Stegen'},{name: 'Semedo'},{name: 'Pique'},{name: 'Rakitic'},{name: 'Busquets'},{name: 'Denis Suarez'},{name: 'Iniesta'},{name: 'Suarez'},{name: 'Dembele'},{name: 'Rafinha'},{name: 'Cillessen'},{name: 'Mascherano'},{name: 'Paulinho'},{name: 'Deulofeu'},{name: 'Alba'},{name: 'Digne'},{name: 'Sergi Roberto'},{name: 'Vidal'},{name: 'Umtiti'}] };
+
+// var options = {
+//     fullWidth: true,
+//     axisX: {
+//         labelInterpolationFnc: function(value, index) {
+//             return index % 2 === 0 ? value : null;
+//         }
+//     },
+//     lineSmooth: false,
+//     plugins: [
+//         Chartist.plugins.tooltip()
+//     ]
+// }
+  
+// var chart = new Chartist.Line('.page-home-main-chart', line_chart_data(args) , options);
+// for (i=0;i<args.players.length;i++) {
+//     $('.col-10.page-home-main-chart').append('<button type="button" class="btn btn-sm text-white m-1" style="background-color:' + chart_color(i) + '">' + args.players[i].name + '</button>');
+// }
+
+  
+
+// $('.page-home-main-chart button').hover(function() {
+//     $('.page-home-main-chart g.ct-series').eq($(this).index()).addClass('hovered');
+//     $('.page-home-main-chart g.ct-series').eq($(this).index()).addClass('hovered');
+// }, function() {
+//     $('.page-home-main-chart g.ct-series').eq($(this).index()).removeClass('hovered');
+//     $('.page-home-main-chart g.ct-series').eq($(this).index()).removeClass('hovered');
+// })

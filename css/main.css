@@ -107,23 +107,23 @@ g.ct-series.hovered line {
   opacity: .3;
 }
 
-.ct-series.ct-series-a path.ct-line, .ct-series.ct-series-a line.ct-point { stroke: #2196f3; }
-.ct-series.ct-series-b path.ct-line, .ct-series.ct-series-b line.ct-point { stroke: #e91e63; }
-.ct-series.ct-series-c path.ct-line, .ct-series.ct-series-c line.ct-point { stroke: #8bc34a; }
-.ct-series.ct-series-d path.ct-line, .ct-series.ct-series-d line.ct-point { stroke: #757575; }
-.ct-series.ct-series-e path.ct-line, .ct-series.ct-series-e line.ct-point { stroke: #f57c00; }
-.ct-series.ct-series-f path.ct-line, .ct-series.ct-series-f line.ct-point { stroke: #26c6da; }
-.ct-series.ct-series-g path.ct-line, .ct-series.ct-series-g line.ct-point { stroke: #3f51b5; }
-.ct-series.ct-series-h path.ct-line, .ct-series.ct-series-h line.ct-point { stroke: #66bb6a; }
-.ct-series.ct-series-i path.ct-line, .ct-series.ct-series-i line.ct-point { stroke: #263238; }
-.ct-series.ct-series-j path.ct-line, .ct-series.ct-series-j line.ct-point { stroke: #ffab00; }
-.ct-series.ct-series-k path.ct-line, .ct-series.ct-series-k line.ct-point { stroke: #4fc3f7; }
-.ct-series.ct-series-l path.ct-line, .ct-series.ct-series-l line.ct-point { stroke: #9c27b0; }
-.ct-series.ct-series-m path.ct-line, .ct-series.ct-series-m line.ct-point { stroke: #26a69a; }
-.ct-series.ct-series-n path.ct-line, .ct-series.ct-series-n line.ct-point { stroke: #78909c; }
-.ct-series.ct-series-o path.ct-line, .ct-series.ct-series-o line.ct-point { stroke: #fc0214; }
-.ct-series.ct-series-p path.ct-line, .ct-series.ct-series-p line.ct-point { stroke: #7c4dff; }
-.ct-series.ct-series-q path.ct-line, .ct-series.ct-series-q line.ct-point { stroke: #795548; }
-.ct-series.ct-series-r path.ct-line, .ct-series.ct-series-r line.ct-point { stroke: #aeea00; }
-.ct-series.ct-series-s path.ct-line, .ct-series.ct-series-s line.ct-point { stroke: #bdbdbd; }
-.ct-series.ct-series-t path.ct-line, .ct-series.ct-series-t line.ct-point { stroke: #e64a19; }
+.ct-series.ct-series-a path.ct-line, .ct-series.ct-series-a line.ct-point, .ct-series.ct-series-a line.ct-bar { stroke: #2196f3; }
+.ct-series.ct-series-b path.ct-line, .ct-series.ct-series-b line.ct-point, .ct-series.ct-series-b line.ct-bar { stroke: #e91e63; }
+.ct-series.ct-series-c path.ct-line, .ct-series.ct-series-c line.ct-point, .ct-series.ct-series-c line.ct-bar { stroke: #8bc34a; }
+.ct-series.ct-series-d path.ct-line, .ct-series.ct-series-d line.ct-point, .ct-series.ct-series-d line.ct-bar { stroke: #757575; }
+.ct-series.ct-series-e path.ct-line, .ct-series.ct-series-e line.ct-point, .ct-series.ct-series-e line.ct-bar { stroke: #f57c00; }
+.ct-series.ct-series-f path.ct-line, .ct-series.ct-series-f line.ct-point, .ct-series.ct-series-f line.ct-bar { stroke: #26c6da; }
+.ct-series.ct-series-g path.ct-line, .ct-series.ct-series-g line.ct-point, .ct-series.ct-series-g line.ct-bar { stroke: #3f51b5; }
+.ct-series.ct-series-h path.ct-line, .ct-series.ct-series-h line.ct-point, .ct-series.ct-series-h line.ct-bar { stroke: #66bb6a; }
+.ct-series.ct-series-i path.ct-line, .ct-series.ct-series-i line.ct-point, .ct-series.ct-series-i line.ct-bar { stroke: #263238; }
+.ct-series.ct-series-j path.ct-line, .ct-series.ct-series-j line.ct-point, .ct-series.ct-series-j line.ct-bar { stroke: #ffab00; }
+.ct-series.ct-series-k path.ct-line, .ct-series.ct-series-k line.ct-point, .ct-series.ct-series-k line.ct-bar { stroke: #4fc3f7; }
+.ct-series.ct-series-l path.ct-line, .ct-series.ct-series-l line.ct-point, .ct-series.ct-series-l line.ct-bar { stroke: #9c27b0; }
+.ct-series.ct-series-m path.ct-line, .ct-series.ct-series-m line.ct-point, .ct-series.ct-series-m line.ct-bar { stroke: #26a69a; }
+.ct-series.ct-series-n path.ct-line, .ct-series.ct-series-n line.ct-point, .ct-series.ct-series-n line.ct-bar { stroke: #78909c; }
+.ct-series.ct-series-o path.ct-line, .ct-series.ct-series-o line.ct-point, .ct-series.ct-series-o line.ct-bar { stroke: #fc0214; }
+.ct-series.ct-series-p path.ct-line, .ct-series.ct-series-p line.ct-point, .ct-series.ct-series-p line.ct-bar { stroke: #7c4dff; }
+.ct-series.ct-series-q path.ct-line, .ct-series.ct-series-q line.ct-point, .ct-series.ct-series-q line.ct-bar { stroke: #795548; }
+.ct-series.ct-series-r path.ct-line, .ct-series.ct-series-r line.ct-point, .ct-series.ct-series-r line.ct-bar { stroke: #aeea00; }
+.ct-series.ct-series-s path.ct-line, .ct-series.ct-series-s line.ct-point, .ct-series.ct-series-s line.ct-bar { stroke: #bdbdbd; }
+.ct-series.ct-series-t path.ct-line, .ct-series.ct-series-t line.ct-point, .ct-series.ct-series-t line.ct-bar { stroke: #e64a19; }
