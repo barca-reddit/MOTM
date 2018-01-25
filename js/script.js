@@ -262,9 +262,7 @@ $('.main-menu').click(function() {
         else {
 
             var max_votes = ratings;
-            max_votes.sort(function(a,b) {
-                return a.votes < b.votes;
-            });
+            max_votes.sort(function(a,b) {return (a.votes < b.votes) ? 1 : ((b.votes < a.votes) ? -1 : 0);} );
 
             max_votes = max_votes.slice(0,5);
             max_votes.reverse(); //reversing array so jquery.after() works properly
@@ -281,9 +279,7 @@ $('.main-menu').click(function() {
             
             var max_percentage = ratings;
 
-            max_percentage.sort(function(a,b) {
-                return a.percentage < b.percentage;
-            });
+            max_percentage.sort(function(a,b) {return (a.percentage < b.percentage) ? 1 : ((b.percentage < a.percentage) ? -1 : 0);} );
 
             max_percentage = max_percentage.slice(0,5);
             max_percentage.reverse(); //reversing array so jquery.after() works properly
@@ -308,9 +304,7 @@ $('.main-menu').click(function() {
                 motm_final[i] = {name: unique_names[i], count: motm_list.filter(function(val){return val.player_name === unique_names[i]}).length }
             }
 
-            motm_final.sort(function(a,b) {
-                return a.count < b.count;
-            })
+            motm_final.sort(function(a,b) {return (a.count < b.count) ? 1 : ((b.count < a.count) ? -1 : 0);} );
 
             motm_final = motm_final.slice(0,5);
             motm_final = motm_final.reverse(); //reversing array so jquery.after() works properly
@@ -336,13 +330,9 @@ $('.main-menu').click(function() {
 
             var match_total_votes_low = match_total_votes.slice(0);
 
-            match_total_votes.sort(function(a,b) {
-                return a.count < b.count;
-            });
+            match_total_votes.sort(function(a,b) {return (a.count < b.count) ? 1 : ((b.count < a.count) ? -1 : 0);} );
 
-            match_total_votes_low.sort(function(a,b) {
-                return a.count > b.count;
-            });
+            match_total_votes_low.sort(function(a,b) {return (a.count > b.count) ? 1 : ((b.count > a.count) ? -1 : 0);} );
 
             match_total_votes = match_total_votes.slice(0,5);
             match_total_votes = match_total_votes.reverse();
