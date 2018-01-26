@@ -41,51 +41,6 @@ body {
 
 /* TOOLTIPS */
 
-.chartist-tooltip {
-  position: absolute;
-  display: inline-block;
-  opacity: 0;
-  min-width: 5em;
-  padding: .2em .5em;
-  font-size: 12px;
-  font-weight: 700;
-  background: #F4C63D;
-  color: #453D3F;
-  text-align: center;
-  pointer-events: none;
-  z-index: 1;
-  -webkit-transition: opacity .2s linear;
-  -moz-transition: opacity .2s linear;
-  -o-transition: opacity .2s linear;
-  transition: opacity .2s linear;
-}
-.chartist-tooltip:before {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  margin-left: -15px;
-  border: 15px solid transparent;
-  border-top-color: #F4C63D;
-}
-.chartist-tooltip.tooltip-show {
-  opacity: 1;
-}
-
-.ct-area, .ct-line {
-  pointer-events: none;
-}
-
-g.ct-series.hovered path {
-  stroke-width: 3px!important;
-}
-
-g.ct-series.hovered line {
-  stroke-width: 8px!important;
-}
-
 .expandable div {
   width: 12px;
   height: 12px;
@@ -127,3 +82,25 @@ g.ct-series.hovered line {
 .ct-series.ct-series-r path.ct-line, .ct-series.ct-series-r line.ct-point, .ct-series.ct-series-r line.ct-bar { stroke: #aeea00; }
 .ct-series.ct-series-s path.ct-line, .ct-series.ct-series-s line.ct-point, .ct-series.ct-series-s line.ct-bar { stroke: #bdbdbd; }
 .ct-series.ct-series-t path.ct-line, .ct-series.ct-series-t line.ct-point, .ct-series.ct-series-t line.ct-bar { stroke: #e64a19; }
+
+table tbody a {
+  position: relative;
+}
+
+table tbody a span {
+  display: none;
+}
+
+table tbody a:hover span, table tbody a:focus span {
+  display: block;
+  position: absolute;
+  top: -2em;
+  right: 0;
+  padding: 0.1em 0.4em;
+  border: 1px solid #000;
+  background-color: #FFF;
+  color: #000;
+  z-index: 1;
+  overflow: visible;
+  white-space: nowrap;
+}

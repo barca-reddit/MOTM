@@ -137,19 +137,13 @@ function standings_table_data(length,month) {
         }
         for (i=0;i<players.length;i++) {
             var list = month_ratings.filter(function(item) { return ( item.player_name === players[i].name ) });
-            var top_3 = list.map(function(x) {
-                if (x.points >= 6) {
-                    return x.points;
-                }
-                
-            });
-            console.log('top3:'  + top_3);
+            var top_3 = list.filter(function(x) { return x.points >= 6 });
             var motm_html = '';
             if (top_3.length > 0) {
                 for (j=0;j<top_3.length;j++) {
-                    if (top_3[j] === 12) { motm_html += '<img src="'+ trophies[0] +'"></img>' }
-                    else if (top_3[j] === 9) { motm_html += '<img src="'+ trophies[1] +'"></img>' }
-                    else if (top_3[j] === 6) { motm_html += '<img src="'+ trophies[2] +'"></img>' }
+                    if (top_3[j].points === 12) { motm_html += '<a><img src="'+ trophies[0] +'"></img><span>' + matches.find(function(match){ return match.match_id === top_3[j].match_id }).opponent + '</span></a>' }
+                    else if (top_3[j].points === 9) { motm_html += '<a><img src="'+ trophies[1] +'"></img><span>' + matches.find(function(match){ return match.match_id === top_3[j].match_id }).opponent + '</span></a>' }
+                    else if (top_3[j].points === 6) { motm_html += '<a><img src="'+ trophies[2] +'"></img><span>' + matches.find(function(match){ return match.match_id === top_3[j].match_id }).opponent + '</span></a>' }
                 }
             }
             var total_points = list.map(function(item){ return item.points; }).reduce(function(a, b){ return a + b; }, 0);
@@ -245,8 +239,8 @@ $('.main-menu').click(function() {
         }
         else {
             $('.page-tables .pagination').append(pagination_html());
-            $('.page-tables .table-season-tables tbody').replaceWith(standings_table_data(25));
-            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(25,1));
+            $('.page-tables .table-season-tables tbody').replaceWith(standings_table_data(players.length));
+            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(players.length,1));
             event_listener_tables();
             $('.visible-page').removeClass('visible-page');
             $('.page-' + clicked).addClass('visible-page');
