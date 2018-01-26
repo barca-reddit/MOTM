@@ -100,9 +100,18 @@ function standings_table_data(length,month) {
     if (!month) {
         for (i=0;i<players.length;i++) {
             var list = ratings.filter(function(item) { return ( item.player_name === players[i].name ) });
+            var top_3 = list.filter(function(x) { return x.points >= 6 });
+            var motm_html = '';
+            if (top_3.length > 0) {
+                for (j=0;j<top_3.length;j++) {
+                    if (top_3[j].points === 12) { motm_html += '<a><img src="'+ trophies[0] +'"></img><span>' + matches.find(function(match){ return match.match_id === top_3[j].match_id }).opponent + '</span></a>' }
+                    else if (top_3[j].points === 9) { motm_html += '<a><img src="'+ trophies[1] +'"></img><span>' + matches.find(function(match){ return match.match_id === top_3[j].match_id }).opponent + '</span></a>' }
+                    else if (top_3[j].points === 6) { motm_html += '<a><img src="'+ trophies[2] +'"></img><span>' + matches.find(function(match){ return match.match_id === top_3[j].match_id }).opponent + '</span></a>' }
+                }
+            }
             var total_points = list.map(function(item){ return item.points; }).reduce(function(a, b){ return a + b; }, 0);
             var total_votes = list.map(function(item){ return item.votes; }).reduce(function(a, b){ return a + b; }, 0);
-            table.push({ "name": players[i].name, "votes": total_votes,  "points": total_points })
+            table.push({ "name": players[i].name, "votes": total_votes,  "points": total_points, "motm": motm_html })
         }
 
         table.sort(function(a, b){
@@ -118,6 +127,7 @@ function standings_table_data(length,month) {
             <td class="text-left">'+ table[i].name + '</td>\
             <td>'+ table[i].votes + '</td>\
             <td>'+ table[i].points + '</td>\
+            <td>'+ table[i].motm + '</td>\
             </tr>'
         }
 
