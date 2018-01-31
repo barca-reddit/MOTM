@@ -263,7 +263,7 @@ $('.main-menu').click(function() {
                 $('.page-charts #pp_' + last_ratings[i].player_id).prop('checked', true);
             }
 
-            var args = { players: [] };
+            var args = { kw: 'points', players: [] };
             $('.page-charts .custom-control-input:checkbox:checked').each(function(){
                 args.players.push({ name: $(this).next().text().trim() })
             });
@@ -407,7 +407,7 @@ $('.main-menu').click(function() {
 
 function event_listener_charts() {
     $('.page-charts .custom-control-input').click(function(){
-        var args = { players: [] };
+        var args = { kw: 'points', players: [] };
         $('.page-charts .custom-control-input:checkbox:checked').each(function(){
             args.players.push({ name: $(this).next().text().trim() });
         })
@@ -415,6 +415,7 @@ function event_listener_charts() {
         args = charts_page_line_chart_data(args);
         console.log(args);
         chart.data.datasets = args;
+        chart.options.animation.duration = 0;
         chart.update();
     });
 }
@@ -496,15 +497,16 @@ function event_listener_matches() {
 
 function charts_page_line_chart_data(args) {
     var dataset = [];
+    var kw = args.kw;
 
     for (i=0;i<args.players.length;i++) {
-        dataset.push({ label: args.players[i].name, borderColor: chart_color(i), data: [] });
+        dataset.push({ label: args.players[i].name, borderColor: chart_color(args.players[i].name), data: [] });
         var totals = 0;
         for (j=0;j<matches.length;j++) {
             var temp = ratings.filter(function(item) { return ( item.player_name === args.players[i].name && item.match_id === matches[j].match_id) });
 
             if (temp[0] !== undefined) {
-                totals += temp[0].votes;
+                totals += temp[0][kw];
                 dataset[i].data.push(totals);
             }
             else {

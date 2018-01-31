@@ -101,34 +101,35 @@ function month_str_num(month) {
     }
 }
 
-function chart_color(number) {
-    colors = [
-        '#2196f3',
-        '#e91e63',
-        '#8bc34a',
-        '#757575',
-        '#f57c00',
-        '#26c6da',
-        '#3f51b5',
-        '#66bb6a',
-        '#263238',
-        '#ffab00',
-        '#4fc3f7',
-        '#9c27b0',
-        '#26a69a',
-        '#78909c',
-        '#fc0214',
-        '#7c4dff',
-        '#795548',
-        '#aeea00',
-        '#bdbdbd',
-        '#e64a19'
-    ]
-    if (number > 19) {
-        return colors[number - 20];
-    }
-    else {
-        return colors[number];
+function chart_color(player) {
+
+    switch(player) {
+        case 'Ter Stegen': return '#2196f3';
+        case 'Semedo': return '#e91e63';
+        case 'Pique': return '#8bc34a';
+        case 'Rakitic': return '#757575';
+        case 'Busquets': return '#f57c00';
+        case 'Denis Suarez': return '#26c6da';
+        case 'Arda': return '#3f51b5';
+        case 'Iniesta': return '#66bb6a';
+        case 'Suarez': return '#263238';
+        case 'Messi': return '#ffab00';
+        case 'Dembele': return '#4fc3f7';
+        case 'Rafinha': return '#9c27b0';
+        case 'Cillessen': return '#26a69a';
+        case 'Mascherano': return '#78909c';
+        case 'Paulinho': return '#fc0214';
+        case 'Paco': return '#7c4dff';
+        case 'Alba': return '#795548';
+        case 'Digne': return '#aeea00';
+        case 'Sergi Roberto': return '#bdbdbd';
+        case 'Gomes': return '#e64a19';
+        case 'Vidal': return '#2196f3';
+        case 'Umtiti': return '#e91e63';
+        case 'Yerry Mina': return '#8bc34a';
+        case 'Vermaelen': return '#757575';
+        case 'Coutinho': return '#f57c00';
+        default: return '#ccc';
     }
 }
 
