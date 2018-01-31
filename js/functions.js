@@ -1,3 +1,48 @@
+// https://tc39.github.io/ecma262/#sec-array.prototype.find
+if (!Array.prototype.find) {
+    Object.defineProperty(Array.prototype, 'find', {
+      value: function(predicate) {
+       // 1. Let O be ? ToObject(this value).
+        if (this == null) {
+          throw new TypeError('"this" is null or not defined');
+        }
+  
+        var o = Object(this);
+  
+        // 2. Let len be ? ToLength(? Get(O, "length")).
+        var len = o.length >>> 0;
+  
+        // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+        if (typeof predicate !== 'function') {
+          throw new TypeError('predicate must be a function');
+        }
+  
+        // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+        var thisArg = arguments[1];
+  
+        // 5. Let k be 0.
+        var k = 0;
+  
+        // 6. Repeat, while k < len
+        while (k < len) {
+          // a. Let Pk be ! ToString(k).
+          // b. Let kValue be ? Get(O, Pk).
+          // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+          // d. If testResult is true, return kValue.
+          var kValue = o[k];
+          if (predicate.call(thisArg, kValue, k, o)) {
+            return kValue;
+          }
+          // e. Increase k by 1.
+          k++;
+        }
+  
+        // 7. Return undefined.
+        return undefined;
+      }
+    });
+  }
+
 function month_num_str(month) {
     switch (month) {
         case 1:
@@ -108,3 +153,35 @@ function countdown_clock(meta) {
 
     }, 1000);
 }
+
+function home_page_chart(ratings,last_match) {
+
+    var home_chart = $('#home-page-chart')[0].getContext('2d');
+    var chart = new Chart(home_chart, {
+
+        type: 'bar',
+
+        data: {
+            labels: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.player_name }),
+            datasets: [{
+                label: "Total Votes:",
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.votes }),
+            }]
+        },
+
+        options: {
+            legend: {
+                display:false
+            },
+            tooltips: {
+                mode: 'nearest',
+                intersect: false
+            },
+            maintainAspectRatio: false
+        }
+    });
+
+}
+

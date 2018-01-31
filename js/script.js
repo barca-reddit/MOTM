@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-//FAKE LOAD
+// FAKE LOAD
+
 // var matches, ratings;
 // $.getJSON('./data/matches.json', function(data) {
 //     matches = data;
@@ -33,8 +34,10 @@ console.log(meta);
 var last_match = matches[matches.length-1];
 var latest_month_data = 'Table ' + month_num_str(last_match.month) + ' ' + last_match.year + ':';
 var last_update = 'Last update: ' + meta[0].last_update;
+var last_ratings = ratings.filter(function(item){ return item.match_id === last_match.match_id});
 
 countdown_clock(meta);
+home_page_chart(ratings,last_match);
 
 $('.latest-month').text(latest_month_data);
 $('.last-update').text(last_update);
@@ -60,33 +63,33 @@ $('.post-match-thread-home').text(
     + ') '
 );
 
-$.each(ratings, function(i, item) {
-    if (ratings[i].points === 12 && ratings[i].match_id == last_match.match_id) {
-        $('img.latest_motm_1').attr('src','img/players/' + ratings[i].player_id + '.jpg');
-        $('div.latest_motm_1 h6').text(ratings[i].player_name);
-        $('div.latest_motm_1 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
+for (i=0;i<last_ratings.length;i++) {
+    if (last_ratings[i].points === 12 && last_ratings[i].match_id == last_match.match_id) {
+        $('img.latest_motm_1').attr('src','img/players/' + last_ratings[i].player_id + '.jpg');
+        $('div.latest_motm_1 h6').text(last_ratings[i].player_name);
+        $('div.latest_motm_1 p').text(last_ratings[i].votes + ' votes (' + last_ratings[i].percentage + '%)');
     }
-    else if (ratings[i].points === 9 && ratings[i].match_id == last_match.match_id) {
-        $('img.latest_motm_2').attr('src','img/players/' + ratings[i].player_id + '.jpg');
-        $('div.latest_motm_2 h6').text(ratings[i].player_name);
-        $('div.latest_motm_2 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
+    else if (last_ratings[i].points === 9 && last_ratings[i].match_id == last_match.match_id) {
+        $('img.latest_motm_2').attr('src','img/players/' + last_ratings[i].player_id + '.jpg');
+        $('div.latest_motm_2 h6').text(last_ratings[i].player_name);
+        $('div.latest_motm_2 p').text(last_ratings[i].votes + ' votes (' + last_ratings[i].percentage + '%)');
     }
-    else if (ratings[i].points === 6 && ratings[i].match_id == last_match.match_id) {
-        $('img.latest_motm_3').attr('src','img/players/' + ratings[i].player_id + '.jpg');
-        $('div.latest_motm_3 h6').text(ratings[i].player_name);
-        $('div.latest_motm_3 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
+    else if (last_ratings[i].points === 6 && last_ratings[i].match_id == last_match.match_id) {
+        $('img.latest_motm_3').attr('src','img/players/' + last_ratings[i].player_id + '.jpg');
+        $('div.latest_motm_3 h6').text(last_ratings[i].player_name);
+        $('div.latest_motm_3 p').text(last_ratings[i].votes + ' votes (' + last_ratings[i].percentage + '%)');
     }
-    else if (ratings[i].points === 4 && ratings[i].match_id == last_match.match_id) {
-        $('img.latest_motm_4').attr('src','img/players/' + ratings[i].player_id + '.jpg');
-        $('div.latest_motm_4 h6').text(ratings[i].player_name);
-        $('div.latest_motm_4 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
+    else if (last_ratings[i].points === 4 && last_ratings[i].match_id == last_match.match_id) {
+        $('img.latest_motm_4').attr('src','img/players/' + last_ratings[i].player_id + '.jpg');
+        $('div.latest_motm_4 h6').text(last_ratings[i].player_name);
+        $('div.latest_motm_4 p').text(last_ratings[i].votes + ' votes (' + last_ratings[i].percentage + '%)');
     }
-    else if (ratings[i].points === 2 && ratings[i].match_id == last_match.match_id) {
-        $('img.latest_motm_5').attr('src','img/players/' + ratings[i].player_id + '.jpg');
-        $('div.latest_motm_5 h6').text(ratings[i].player_name);
-        $('div.latest_motm_5 p').text(ratings[i].votes + ' votes (' + ratings[i].percentage + '%)');
+    else if (last_ratings[i].points === 2 && last_ratings[i].match_id == last_match.match_id) {
+        $('img.latest_motm_5').attr('src','img/players/' + last_ratings[i].player_id + '.jpg');
+        $('div.latest_motm_5 h6').text(last_ratings[i].player_name);
+        $('div.latest_motm_5 p').text(last_ratings[i].votes + ' votes (' + last_ratings[i].percentage + '%)');
     }
-});
+}
 
 function standings_table_data(length,month) {
     var table = [];
@@ -185,10 +188,9 @@ function standings_table_data(length,month) {
     }
 }
 
-
 function match_list_html() {
     var html;
-    for (i=0;i<matches.length;i++) {
+    for (i=(matches.length-1);i>=0;i--) {
         html +=
         '<tr>' +
         '<td>' + matches[i].day + '-' + month_num_str(matches[i].month) + '-' + matches[i].year + '</td>' +
@@ -239,6 +241,35 @@ $('.main-menu').click(function() {
             event_listener_matches();
             $('.visible-page').removeClass('visible-page');
             $('.page-' + clicked).addClass('visible-page');
+        }
+    }
+
+    else if (clicked === 'charts') {
+        if ($('.page-charts .was-active').length > 0) {
+            $('.visible-page').removeClass('visible-page');
+            $('.page-' + clicked).addClass('visible-page');
+        }
+        else {
+            $('<div class="was-active" style="display:none"></div>').appendTo('.page-charts');
+
+            $('.visible-page').removeClass('visible-page');
+            $('.page-' + clicked).addClass('visible-page');
+
+            $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+                $(this).prop('checked', false);
+            });
+            
+            for (i=0;i<5;i++) {
+                $('.page-charts #pp_' + last_ratings[i].player_id).prop('checked', true);
+            }
+
+            var args = { players: [] };
+            $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+                args.players.push({ name: $(this).next().text().trim() })
+            });
+
+            event_listener_charts();
+            charts_page_season(args);
         }
     }
 
@@ -363,7 +394,6 @@ $('.main-menu').click(function() {
                 );   
             }
 
-
             $('.visible-page').removeClass('visible-page');
             $('.page-' + clicked).addClass('visible-page');
         }
@@ -375,6 +405,20 @@ $('.main-menu').click(function() {
     }
 });
 
+function event_listener_charts() {
+    $('.page-charts .custom-control-input').click(function(){
+        var args = { players: [] };
+        $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+            args.players.push({ name: $(this).next().text().trim() });
+        })
+        console.log(args);
+        args = charts_page_line_chart_data(args);
+        console.log(args);
+        chart.data.datasets = args;
+        chart.update();
+    });
+}
+
 function event_listener_tables() {
     $('.page-tables .pagination li.next').click(function() {
         if ($('.page-tables .pagination .month').last().hasClass('active') === false) {
@@ -382,7 +426,7 @@ function event_listener_tables() {
             $('.page-tables .pagination .month.active').removeClass('active');
             $('.page-tables .pagination .month').eq(index).addClass('active');
             var month = month_str_num($('.page-tables .pagination .month.active').text());
-            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(25,month));
+            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(players.length,month));
         }
     });
 
@@ -392,7 +436,7 @@ function event_listener_tables() {
             $('.page-tables .pagination .month.active').removeClass('active');
             $('.page-tables .pagination .month').eq(index -2).addClass('active');
             var month = month_str_num($('.page-tables .pagination .month.active').text());
-            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(25,month));
+            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(players.length,month));
         }
     });
 
@@ -400,90 +444,129 @@ function event_listener_tables() {
         $('.page-tables .pagination .month.active').removeClass('active');
         $(this).addClass('active');
         var month = month_str_num($('.page-tables .pagination .month.active').text());
-        $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(25,month));
+        $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(players.length,month));
     });
 }
 
 
 function event_listener_matches() {
-    $('.page-matches .table-matches tbody .expandable div').click(function() {
-        var table_match_id = $(this).attr('match_id');
+    $('.page-matches .table-matches tbody tr').click(function() {
 
-        if ($(this).parent().parent().next().hasClass('table_motm_expanded')) {
-            $(this).parent().parent().nextUntil('tr:not(".table_motm_expanded")').remove();
-            $(this).removeClass('uparrow');
-        }
+        if ($(this).find('.expandable div').length > 0) {
 
-        else {
-            $(this).addClass('uparrow');
-            var table_motm_ratings = ratings.filter(function(item){ return item.match_id == table_match_id});
-            table_motm_ratings.reverse();
-            for (i=0;i<table_motm_ratings.length;i++) {
-                $(this).parent().parent().after(
-                    '<tr class="table_motm_expanded small">' +
-                    '<td>' + (table_motm_ratings.length-i) + '</td>' +
-                    '<td>' + table_motm_ratings[i].player_name + '</td>' +
-                    '<td>' + table_motm_ratings[i].votes + ' votes</td>' +
-                    '<td>' + table_motm_ratings[i].percentage + '%</td>' +
-                    '<td>' + table_motm_ratings[i].points + ' points</td>' +
-                    '<td>&nbsp;</td>' +
-                    '<td>&nbsp;</td>' +
+            var table_match_id = $(this).find('.expandable div').attr('match_id');
+
+            if ($(this).next().hasClass('table_motm_expanded')) {
+                $(this).nextUntil('tr:not(".table_motm_expanded")').remove();
+                $(this).find('.expandable div').removeClass('uparrow');
+            }
+
+            else {
+                $(this).find('.expandable div').addClass('uparrow');
+                var table_motm_ratings = ratings.filter(function(item){ return item.match_id == table_match_id});
+                table_motm_ratings.reverse();
+                for (i=0;i<table_motm_ratings.length;i++) {
+                    $(this).after(
+                        '<tr class="table_motm_expanded small">' +
+                        '<td>' + (table_motm_ratings.length-i) + '</td>' +
+                        '<td>' + table_motm_ratings[i].player_name + '</td>' +
+                        '<td>' + table_motm_ratings[i].votes + ' votes</td>' +
+                        '<td>' + table_motm_ratings[i].percentage + '%</td>' +
+                        '<td>' + table_motm_ratings[i].points + ' points</td>' +
+                        '<td>&nbsp;</td>' +
+                        '<td>&nbsp;</td>' +
+                        '</tr>'
+                    )
+                }
+                $(this).after(
+                    '<tr class="table_motm_expanded">' +
+                    '<th>#</th>' +
+                    '<th>Player name</th>' +
+                    '<th>Votes</th>' +
+                    '<th>Percentage</th>' +
+                    '<th>Points</th>' +
+                    '<th>&nbsp;</th>' +
+                    '<th>&nbsp;</th>' +
                     '</tr>'
                 )
             }
-            $(this).parent().parent().after(
-                '<tr class="table_motm_expanded">' +
-                '<th>#</th>' +
-                '<th>Player name</th>' +
-                '<th>Votes</th>' +
-                '<th>Percentage</th>' +
-                '<th>Points</th>' +
-                '<th>&nbsp;</th>' +
-                '<th>&nbsp;</th>' +
-                '</tr>'
-            )
         }
     });
 }
 
-function draw_chart(data) {
-    data.type;
-    data.players;
-    data.location;
+function charts_page_line_chart_data(args) {
+    var dataset = [];
+
+    for (i=0;i<args.players.length;i++) {
+        dataset.push({ label: args.players[i].name, borderColor: chart_color(i), data: [] });
+        var totals = 0;
+        for (j=0;j<matches.length;j++) {
+            var temp = ratings.filter(function(item) { return ( item.player_name === args.players[i].name && item.match_id === matches[j].match_id) });
+
+            if (temp[0] !== undefined) {
+                totals += temp[0].votes;
+                dataset[i].data.push(totals);
+            }
+            else {
+                dataset[i].data.push(totals);
+            }
+        }
+    }
+    return(dataset);
 }
 
-var home_chart = $('#home-page-chart')[0].getContext('2d');
+var chart;
 
-var chart = new Chart(home_chart, {
+function charts_page_season(args) {
 
-    type: 'bar',
+    var season_chart = $('#charts-page-chart-season')[0].getContext('2d');
+    var object = { labels: [], series: [] };
+    var mydataset = charts_page_line_chart_data(args);
 
-    data: {
-        labels: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.player_name }),
-        datasets: [{
-            label: "Total Votes:",
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.votes }),
-        }]
-    },
-
-    options: {
-        legend: {
-            display:false
-        },
-        tooltips: {
-            mode: 'nearest',
-            intersect: false
-        },
-        maintainAspectRatio: false
+    for (i=0;i<matches.length;i++) {
+        object.labels.push(month_num_str(matches[i].month) + ' ' + matches[i].day);
     }
-});
 
+    chart = new Chart(season_chart, {
 
+        type: 'line',
 
+        data: {
+            labels: object.labels,
+            datasets: mydataset
+        },
 
+        options: {
+            tooltips: {
+                intersect: false,
+                callbacks: {
+                    title: function(tooltipItem) {
+                        return month_num_str(matches[tooltipItem[0].index].month) + '-' + matches[tooltipItem[0].index].day + ' ' + matches[tooltipItem[0].index].opponent;
+                    }
+                }
+            },
+            elements: {
+                line: {
+                    fill: false,
+                    borderWidth: 2,
+                    tension: 0
+                },
+                point: {
+                    radius: 3,
+                    pointStyle: 'cross'
+                }
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    boxWidth: 15
+                }
+            },
+            maintainAspectRatio: false,
+        }
+    });
 
+}
 
 
 
@@ -500,27 +583,6 @@ var chart = new Chart(home_chart, {
 } //end of main
 }); //end of onload
 
-
-
-// var data = {
-//     labels: ['Jan 21', 'Jan 25', 'Jan 27','Jan 21', 'Jan 25', 'Jan 27','Jan 21', 'Jan 25', 'Jan 27','Jan 21', 'Jan 25', 'Jan 27'],
-//     series: [
-//                 [
-//                     {meta: 'Real Madrid (A)', value: 12},
-//                     {meta: 'Valencia (A)', value: 45},
-//                     {meta: 'Real Sociedad', value: 21},
-//                     {meta: 'Getafe', value: 25},
-//                     {meta: 'Girona', value: 63}
-//                 ],
-//                 [
-//                     {meta: 'Real Madrid (A)', value: 52},
-//                     {meta: 'Valencia (A)', value: 51},
-//                     {meta: 'Real Sociedad', value: 121},
-//                     {meta: 'Getafe', value: 51},
-//                     {meta: 'Girona', value: 43}
-//                 ]
-//         ]
-// }
 
 // google.charts.load('current', {'packages':['line']});
 // google.charts.setOnLoadCallback(function(){
@@ -629,13 +691,3 @@ var chart = new Chart(home_chart, {
 // for (i=0;i<args.players.length;i++) {
 //     $('.col-10.page-home-main-chart').append('<button type="button" class="btn btn-sm text-white m-1" style="background-color:' + chart_color(i) + '">' + args.players[i].name + '</button>');
 // }
-
-  
-
-// $('.page-home-main-chart button').hover(function() {
-//     $('.page-home-main-chart g.ct-series').eq($(this).index()).addClass('hovered');
-//     $('.page-home-main-chart g.ct-series').eq($(this).index()).addClass('hovered');
-// }, function() {
-//     $('.page-home-main-chart g.ct-series').eq($(this).index()).removeClass('hovered');
-//     $('.page-home-main-chart g.ct-series').eq($(this).index()).removeClass('hovered');
-// })

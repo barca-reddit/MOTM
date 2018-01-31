@@ -3,16 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" type="image/png" href="img/assets/favicon.png">
   <title>Reddit Barca MOTM stats</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <!-- Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.bundle.min.js" integrity="sha384-VspmFJ2uqRrKr3en+IG0cIq1Cl/v/PHneDw6SQZYgrcr8ZZmZoQ3zhuGfMnSR/F2" crossorigin="anonymous"></script>
   <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.3/yeti/bootstrap.min.css" rel="stylesheet" integrity="sha384-xpQNcoacYF/4TKVs2uD3sXyaQYs49wxwEmeFNkOUgun6SLWdEbaCOv8hGaB9jLxt" crossorigin="anonymous">
-  <!-- Chartist -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" integrity="sha256-c0m8xzX5oOBawsnLVpHnU2ieISOvxi584aNElFl2W6M=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
-  <script src="https://unpkg.com/chartist-plugin-tooltips@0.0.17"></script>
   <!-- Page CSS -->
   <link rel="stylesheet" href="css/main.css">
   <!-- Funtions JS -->
@@ -40,7 +37,7 @@
             <a class="nav-link main-menu" href="#tables">Tables</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link main-menu disabled" href="#charts">Charts</a>
+            <a class="nav-link main-menu" href="#charts">Charts</a>
           </li>
           <li class="nav-item">
             <a class="nav-link main-menu" href="#records">Records</a>
@@ -117,7 +114,7 @@
     <div class="container mb-3">
       <div class="chart-container" style="height:200px">
         <canvas id="home-page-chart"></canvas>
-    </div>
+      </div>
     </div><!-- container -->
 
     <div class="container">
@@ -332,17 +329,18 @@
   <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• MATCHES PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
 
   <div class="page-matches main-area">
-    <div class="container">
+    <div class="container mt-3">
+      <h1 class="mb-3">Matches season 2017-18</h1>
       <table class="table table-sm table-striped text-center table-matches">
         <thead>
           <tr>
-            <th style="width:10%">Date</th>
-            <th style="width:25%">Comp</th>
-            <th style="width:20%">Home</th>
-            <th style="width:5%">Result</th>
-            <th style="width:20%">Away</th>
-            <th style="width:10%">Thread</th>
-            <th style="width:10%">Details</th>
+            <th>Date</th>
+            <th>Comp</th>
+            <th>Home</th>
+            <th>Result</th>
+            <th>Away</th>
+            <th>Thread</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>
@@ -351,10 +349,134 @@
     </div>
   </div>
 
+  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• CHARTS PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+
+  <div class="page-charts main-area">
+    <div class="container mt-3">
+      <h1 class="mb-3">Charts</h1>
+      <div class="row">
+        <div class="col-md-9">
+          <fieldset>
+            <legend>Select Players</legend>
+            <div class="form-group form-inline">
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_1" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_1">Ter Stegen</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_2" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_2">Semedo</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_3" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_3">Pique</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_4" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_4">Rakitic</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_5" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_5">Busquets</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_6" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_6">Denis</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_8" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_8">Iniesta</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_9" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_9">Suarez</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_11" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_11">Dembele</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_12" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_12">Rafinha</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_13" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_13">Cillessen</label>
+                </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_14" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_14">Mascherano</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_15" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_15">Paulinho</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_17" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_17">Paco</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_18" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_18">Alba</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_19" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_19">Digne</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_20" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_20">Sergi Roberto</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_21" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_21">Andre Gomes</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_22" checked="false" type="checkbox">
+                <label class="custom-control-label" for="pp_22">Vidal</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_23" checked="" type="checkbox">
+                <label class="custom-control-label" for="pp_23">Umtiti</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_24" checked="" type="checkbox">
+                <label class="custom-control-label" for="pp_24">Yerry Mina</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_25" checked="" type="checkbox">
+                <label class="custom-control-label" for="pp_25">Vermaelen</label>
+              </div>
+              <div class="custom-control custom-checkbox mx-1">
+                <input class="custom-control-input" id="pp_27" checked="" type="checkbox">
+                <label class="custom-control-label" for="pp_27">Coutinho</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <select class="custom-select">
+              <option selected="">Select Chart Type</option>
+              <option value="1">Votes progression over the season</option>
+              <option value="2">Points progression over the season</option>
+              <option value="3">Total points</option>
+              <option value="3">Total votes</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="chart-container" style="height:600px">
+        <canvas id="charts-page-chart-season"></canvas>
+      </div>
+    </div>
+  </div>
+
   <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• RECORDS PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
 
   <div class="page-records main-area">
     <div class="container mt-3">
+      <h1 class="mb-3">Records</h1>
       <div class="row justify-content-center mb-4">
         <div class="col-md-4">
           <h4 class="record-votes mb-4">Highest vote count:</h4>
@@ -437,7 +559,7 @@
       </div>
     </div>
   </footer>
-  <div class="container popup">
+  <!-- <div class="container popup">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -454,7 +576,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>

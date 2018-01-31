@@ -3,6 +3,17 @@ body {
   background-color: #f8f8f8;
 }
 
+.page-matches table td, .page-matches table th {
+  padding: 2px 0!important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.page-matches table {
+  table-layout: fixed;
+}
+
 .chart, #popup-chart {
   width: 100%; 
   min-height: 500px;
@@ -21,7 +32,7 @@ body {
   opacity: 0;
 }
 
-.page-home, .page-players, .page-matches, .page-records, .page-tables {
+.page-home, .page-players, .page-matches, .page-records, .page-tables, .page-charts {
   display: none;
 }
 
