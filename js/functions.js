@@ -166,8 +166,8 @@ function home_page_chart(ratings,last_match) {
             labels: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.player_name }),
             datasets: [{
                 label: "Total Votes:",
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(33, 150, 243, 0.8)',
+                borderColor: 'rgba(33, 150, 243, 0.8)',
                 data: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.votes })
             }]
         },

@@ -440,8 +440,8 @@ function event_listener_charts() {
 
             var datasets = [{
                 label: 'Total points',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(33, 150, 243, 0.8)',
+                borderColor: 'rgba(33, 150, 243, 0.8)',
                 data: mydataset
             }]
 
@@ -462,8 +462,8 @@ function event_listener_charts() {
 
             var datasets = [{
                 label: 'Total votes',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(33, 150, 243, 0.8)',
+                borderColor: 'rgba(33, 150, 243, 0.8)',
                 data: mydataset
             }]
 
@@ -588,18 +588,6 @@ function charts_page_bar_chart_data(args) {
     var dataset = [];
     var kw = args.kw;
 
-    // datasets: [{
-    //     label: "Total Votes:",
-    //     backgroundColor: 'rgb(255, 99, 132)',
-    //     borderColor: 'rgb(255, 99, 132)',
-    //     data: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.votes }),
-    // }]
-
-    // dataset.label = 'Total ' + args.kw;
-    // dataset.backgroundColor = 'rgb(255, 99, 132)';
-    // dataset.borderColor = 'rgb(255, 99, 132)';
-    // dataset.data = [];
-
     for (i=0;i<args.players.length;i++) {
         dataset.push(
 
@@ -700,8 +688,8 @@ function charts_page_do_line_chart(args) {
                 labels: object.labels,
                 datasets: [{
                     label: 'Total :' + args.kw,
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(33, 150, 243, 0.8)',
+                    borderColor: 'rgba(33, 150, 243, 0.8)',
                     data: mydataset
                 }]
             },
