@@ -403,7 +403,9 @@ $('.main-menu').click(function() {
 });
 
 function event_listener_charts() {
+
     $('.page-charts .custom-control-input').click(function(){
+
         if ($('.page-charts select').val() === 'line-points-season') {
             var args = { type: 'line', kw: 'points', players: [] };
             $('.page-charts .custom-control-input:checkbox:checked').each(function(){
@@ -413,6 +415,7 @@ function event_listener_charts() {
             chart.data.datasets = args;
             chart.options.animation.duration = 0;
             chart.update();
+
         }
         else if ($('.page-charts select').val() === 'line-votes-season') {
             var args = { type: 'line', kw: 'votes', players: [] };
@@ -471,18 +474,18 @@ function event_listener_charts() {
         }
     });
 
-    $('.page-charts select option').click(function(){
-        if ($(this).val() === 'line-votes-season') {
+    $('.page-charts select').change(function(){
+        if ($(this).val() === 'line-points-season') {
             chart.destroy();
-            var args = { type: 'line', kw: 'votes', players: [] };
+            var args = { type: 'line', kw: 'points', players: [] };
             $('.page-charts .custom-control-input:checkbox:checked').each(function(){
                 args.players.push({ name: $(this).next().text().trim() })
             });
             charts_page_do_line_chart(args);
         }
-        else if ($(this).val() === 'line-points-season') {
+        else if ($(this).val() === 'line-votes-season') {
             chart.destroy();
-            var args = { type: 'line', kw: 'points', players: [] };
+            var args = { type: 'line', kw: 'votes', players: [] };
             $('.page-charts .custom-control-input:checkbox:checked').each(function(){
                 args.players.push({ name: $(this).next().text().trim() });
             })
