@@ -168,7 +168,7 @@ function home_page_chart(ratings,last_match) {
                 label: "Total Votes:",
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
-                data: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.votes }),
+                data: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.votes })
             }]
         },
 

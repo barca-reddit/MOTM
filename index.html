@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" type="image/png" href="img/assets/favicon.png">
-  <title>Reddit Barca MOTM stats</title>
+  <title>/r/barca man of the match stats</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <!-- Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.bundle.min.js" integrity="sha384-VspmFJ2uqRrKr3en+IG0cIq1Cl/v/PHneDw6SQZYgrcr8ZZmZoQ3zhuGfMnSR/F2" crossorigin="anonymous"></script>
@@ -355,7 +355,7 @@
     <div class="container mt-3">
       <h1 class="mb-3">Charts</h1>
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
           <fieldset>
             <legend>Select Players</legend>
             <div class="form-group form-inline">
@@ -454,14 +454,14 @@
             </div>
           </fieldset>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
+          <legend>Chart Type</legend>
           <div class="form-group">
             <select class="custom-select">
-              <option selected="">Select Chart Type</option>
-              <option value="1">Votes progression over the season</option>
-              <option value="2">Points progression over the season</option>
-              <option value="3">Total points</option>
-              <option value="3">Total votes</option>
+              <option selected="" value="line-points-season">Points progression over the season</option>
+              <option value="line-votes-season">Votes progression over the season</option>
+              <option value="bar-points-season">Total points</option>
+              <option value="bar-votes-season">Total votes</option>
             </select>
           </div>
         </div>

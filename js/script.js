@@ -26,11 +26,6 @@ load_json();
 
 function main(players,matches,ratings,meta) {
 
-console.log(players);
-console.log(matches);
-console.log(ratings);
-console.log(meta);
-
 var last_match = matches[matches.length-1];
 var latest_month_data = 'Table ' + month_num_str(last_match.month) + ' ' + last_match.year + ':';
 var last_update = 'Last update: ' + meta[0].last_update;
@@ -258,18 +253,20 @@ $('.main-menu').click(function() {
             $('.page-charts .custom-control-input:checkbox:checked').each(function(){
                 $(this).prop('checked', false);
             });
+
+            $('.page-charts select').val('line-points-season');
             
             for (i=0;i<5;i++) {
                 $('.page-charts #pp_' + last_ratings[i].player_id).prop('checked', true);
             }
 
-            var args = { kw: 'points', players: [] };
+            var args = { type: 'line', kw: 'points', players: [] };
             $('.page-charts .custom-control-input:checkbox:checked').each(function(){
                 args.players.push({ name: $(this).next().text().trim() })
             });
 
             event_listener_charts();
-            charts_page_season(args);
+            charts_page_do_line_chart(args);
         }
     }
 
@@ -407,17 +404,107 @@ $('.main-menu').click(function() {
 
 function event_listener_charts() {
     $('.page-charts .custom-control-input').click(function(){
-        var args = { kw: 'points', players: [] };
-        $('.page-charts .custom-control-input:checkbox:checked').each(function(){
-            args.players.push({ name: $(this).next().text().trim() });
-        })
-        console.log(args);
-        args = charts_page_line_chart_data(args);
-        console.log(args);
-        chart.data.datasets = args;
-        chart.options.animation.duration = 0;
-        chart.update();
+        if ($('.page-charts select').val() === 'line-points-season') {
+            var args = { type: 'line', kw: 'points', players: [] };
+            $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+                args.players.push({ name: $(this).next().text().trim() });
+            })
+            args = charts_page_line_chart_data(args);
+            chart.data.datasets = args;
+            chart.options.animation.duration = 0;
+            chart.update();
+        }
+        else if ($('.page-charts select').val() === 'line-votes-season') {
+            var args = { type: 'line', kw: 'votes', players: [] };
+            $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+                args.players.push({ name: $(this).next().text().trim() });
+            })
+            args = charts_page_line_chart_data(args);
+            chart.data.datasets = args;
+            chart.options.animation.duration = 0;
+            chart.update();
+        }
+        else if ($('.page-charts select').val() === 'bar-points-season') {
+
+            var labels = [];
+            var args = { type: 'line', kw: 'points', players: [] };
+
+            $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+                args.players.push({ name: $(this).next().text().trim() });
+                labels.push($(this).next().text().trim());
+            })
+            var mydataset = charts_page_bar_chart_data(args);
+
+            var datasets = [{
+                label: 'Total points',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: mydataset
+            }]
+
+            chart.data.datasets = datasets;
+            chart.data.labels = labels;
+            chart.options.animation.duration = 0;
+            chart.update();
+        }
+        else if ($('.page-charts select').val() === 'bar-votes-season') {
+            var labels = [];
+            var args = { type: 'line', kw: 'votes', players: [] };
+
+            $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+                args.players.push({ name: $(this).next().text().trim() });
+                labels.push($(this).next().text().trim());
+            })
+            var mydataset = charts_page_bar_chart_data(args);
+
+            var datasets = [{
+                label: 'Total votes',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: mydataset
+            }]
+
+            chart.data.datasets = datasets;
+            chart.data.labels = labels;
+            chart.options.animation.duration = 0;
+            chart.update();
+        }
     });
+
+    $('.page-charts select option').click(function(){
+        if ($(this).val() === 'line-votes-season') {
+            chart.destroy();
+            var args = { type: 'line', kw: 'votes', players: [] };
+            $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+                args.players.push({ name: $(this).next().text().trim() })
+            });
+            charts_page_do_line_chart(args);
+        }
+        else if ($(this).val() === 'line-points-season') {
+            chart.destroy();
+            var args = { type: 'line', kw: 'points', players: [] };
+            $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+                args.players.push({ name: $(this).next().text().trim() });
+            })
+            charts_page_do_line_chart(args);
+        }
+        else if ($(this).val() === 'bar-points-season') {
+            chart.destroy();
+            var args = { type: 'bar', kw: 'points', players: [] };
+            $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+                args.players.push({ name: $(this).next().text().trim() });
+            })
+            charts_page_do_line_chart(args);
+        }
+        else if ($(this).val() === 'bar-votes-season') {
+            chart.destroy();
+            var args = { type: 'bar', kw: 'votes', players: [] };
+            $('.page-charts .custom-control-input:checkbox:checked').each(function(){
+                args.players.push({ name: $(this).next().text().trim() });
+            })
+            charts_page_do_line_chart(args);
+        }
+    })
 }
 
 function event_listener_tables() {
@@ -448,7 +535,6 @@ function event_listener_tables() {
         $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(players.length,month));
     });
 }
-
 
 function event_listener_matches() {
     $('.page-matches .table-matches tbody tr').click(function() {
@@ -495,6 +581,36 @@ function event_listener_matches() {
     });
 }
 
+function charts_page_bar_chart_data(args) {
+    var dataset = [];
+    var kw = args.kw;
+
+    // datasets: [{
+    //     label: "Total Votes:",
+    //     backgroundColor: 'rgb(255, 99, 132)',
+    //     borderColor: 'rgb(255, 99, 132)',
+    //     data: ratings.filter(function(item){ return item.match_id === last_match.match_id }).map(function(item){ return item.votes }),
+    // }]
+
+    // dataset.label = 'Total ' + args.kw;
+    // dataset.backgroundColor = 'rgb(255, 99, 132)';
+    // dataset.borderColor = 'rgb(255, 99, 132)';
+    // dataset.data = [];
+
+    for (i=0;i<args.players.length;i++) {
+        dataset.push(
+
+                ratings.filter(function(item) {
+                    return item.player_name === args.players[i].name })
+                    .map(function(item){ return item[kw] })
+                    .reduce(function(a, b){ return a + b; }, 0)
+                
+            )
+    }
+
+    return dataset;
+}
+
 function charts_page_line_chart_data(args) {
     var dataset = [];
     var kw = args.kw;
@@ -514,69 +630,91 @@ function charts_page_line_chart_data(args) {
             }
         }
     }
-    return(dataset);
+    return dataset;
 }
 
 var chart;
 
-function charts_page_season(args) {
-
+function charts_page_do_line_chart(args) {
+    
     var season_chart = $('#charts-page-chart-season')[0].getContext('2d');
-    var object = { labels: [], series: [] };
-    var mydataset = charts_page_line_chart_data(args);
 
-    for (i=0;i<matches.length;i++) {
-        object.labels.push(month_num_str(matches[i].month) + ' ' + matches[i].day);
+    if (args.type === 'line') {
+
+        var object = { labels: [], series: [] };
+        var mydataset = charts_page_line_chart_data(args);
+
+        for (i=0;i<matches.length;i++) {
+            object.labels.push(month_num_str(matches[i].month) + ' ' + matches[i].day);
+        }
+
+        chart = new Chart(season_chart, {
+            type: 'line',
+            data: {
+                labels: object.labels,
+                datasets: mydataset
+            },
+            options: {
+                tooltips: {
+                    intersect: false,
+                    callbacks: {
+                        title: function(tooltipItem) {
+                            return month_num_str(matches[tooltipItem[0].index].month) + '-' + matches[tooltipItem[0].index].day + ' ' + matches[tooltipItem[0].index].opponent;
+                        }
+                    }
+                },
+                elements: {
+                    line: {
+                        fill: false,
+                        borderWidth: 2,
+                        tension: 0
+                    },
+                    point: {
+                        radius: 3,
+                        pointStyle: 'cross'
+                    }
+                },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        boxWidth: 15
+                    }
+                },
+                maintainAspectRatio: false,
+            }
+        })
     }
 
-    chart = new Chart(season_chart, {
+    else if (args.type === 'bar') {
 
-        type: 'line',
+        var object = { labels: [], series: [] };
+        object.labels = args.players.map(function(item){ return item.name });
+        var mydataset = charts_page_bar_chart_data(args);
 
-        data: {
-            labels: object.labels,
-            datasets: mydataset
-        },
-
-        options: {
-            tooltips: {
-                intersect: false,
-                callbacks: {
-                    title: function(tooltipItem) {
-                        return month_num_str(matches[tooltipItem[0].index].month) + '-' + matches[tooltipItem[0].index].day + ' ' + matches[tooltipItem[0].index].opponent;
-                    }
-                }
+        chart = new Chart(season_chart, {
+            type: 'bar',
+            data: {
+                labels: object.labels,
+                datasets: [{
+                    label: 'Total :' + args.kw,
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: mydataset
+                }]
             },
-            elements: {
-                line: {
-                    fill: false,
-                    borderWidth: 2,
-                    tension: 0
+            options: {
+                legend: {
+                    display:false
                 },
-                point: {
-                    radius: 3,
-                    pointStyle: 'cross'
-                }
-            },
-            legend: {
-                position: 'bottom',
-                labels: {
-                    boxWidth: 15
-                }
-            },
-            maintainAspectRatio: false,
-        }
-    });
+                tooltips: {
+                    intersect: false
+                },
+                maintainAspectRatio: false
+            }
+        })
+    }
 
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -585,36 +723,6 @@ function charts_page_season(args) {
 } //end of main
 }); //end of onload
 
-
-// google.charts.load('current', {'packages':['line']});
-// google.charts.setOnLoadCallback(function(){
-//     drawChart(args);
-// });
-
-// function drawChart(args) {
-//     console.log('start');
-//     var data = new google.visualization.DataTable();
-//     data.addColumn('string', 'Date');
-
-//     for (i=0;i<args.players.length;i++) {
-//         data.addColumn('number', args.players[i].name);
-//     }
-
-//     data.addRows(table_data(args));
-
-//     var options = {
-//         chart: {
-//             title: 'Player votes (Last ' + args.length + ' games)'
-//         },
-//         vAxis: {
-//             title: 'Votes'
-//         }
-//     };
-
-//     var chart = new google.charts.Line($(args.location)[0]);
-
-//     chart.draw(data, google.charts.Line.convertOptions(options));
-// }
 
 // $('.top3-click').click(function() {
 //     var list = [];
@@ -671,25 +779,4 @@ function charts_page_season(args) {
 
 //     return object;
 
-// }
-
-
-// var args = { type: 'points', sum: true, length: 'all', players: [{name: 'Ter Stegen'},{name: 'Semedo'},{name: 'Pique'},{name: 'Rakitic'},{name: 'Busquets'},{name: 'Denis Suarez'},{name: 'Iniesta'},{name: 'Suarez'},{name: 'Dembele'},{name: 'Rafinha'},{name: 'Cillessen'},{name: 'Mascherano'},{name: 'Paulinho'},{name: 'Deulofeu'},{name: 'Alba'},{name: 'Digne'},{name: 'Sergi Roberto'},{name: 'Vidal'},{name: 'Umtiti'}] };
-
-// var options = {
-//     fullWidth: true,
-//     axisX: {
-//         labelInterpolationFnc: function(value, index) {
-//             return index % 2 === 0 ? value : null;
-//         }
-//     },
-//     lineSmooth: false,
-//     plugins: [
-//         Chartist.plugins.tooltip()
-//     ]
-// }
-  
-// var chart = new Chartist.Line('.page-home-main-chart', line_chart_data(args) , options);
-// for (i=0;i<args.players.length;i++) {
-//     $('.col-10.page-home-main-chart').append('<button type="button" class="btn btn-sm text-white m-1" style="background-color:' + chart_color(i) + '">' + args.players[i].name + '</button>');
 // }
