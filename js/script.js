@@ -186,12 +186,18 @@ function standings_table_data(length,month) {
 function match_list_html() {
     var html;
     for (i=(matches.length-1);i>=0;i--) {
+        var wdl_html;
+        switch (matches[i].outcome) {
+            case "win": wdl_html = '<span style="color:#008000">(W)</span>'; break;
+            case "draw": wdl_html = '<span style="color:#ffa500">(D)</span>'; break;
+            case "loss": wdl_html = '<span style="color:#ff0000">(L)</span>'; break;
+        }
         html +=
         '<tr>' +
         '<td>' + matches[i].day + '-' + month_num_str(matches[i].month) + '-' + matches[i].year + '</td>' +
         '<td>' + matches[i].competition + '</td>' +
         '<td>' + matches[i].home_team + '</td>' +
-        '<td>' + matches[i].home_score + '-' + matches[i].away_score  + '</td>' +
+        '<td>' + matches[i].home_score + '-' + matches[i].away_score + ' ' + wdl_html +'</td>' +
         '<td>' + matches[i].away_team + '</td>' +
         '<td>' + '<a class="text-primary" href="https://redd.it/' + matches[i].thread + '" target="_blank">Thread</a></td>' +
         '<td class="expandable"><div match_id="' + matches[i].match_id + '"></div></td>' +
