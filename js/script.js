@@ -284,7 +284,7 @@ $('.main-menu').click(function() {
         else {
             $('.page-tables .pagination').append(pagination_html());
             $('.page-tables .table-season-tables tbody').replaceWith(standings_table_data(players.length));
-            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(players.length,1));
+            $('.page-tables .table-monthly-tables tbody').replaceWith(standings_table_data(players.length,last_match.month));
             event_listener_tables();
             $('.visible-page').removeClass('visible-page');
             $('.page-' + clicked).addClass('visible-page');
