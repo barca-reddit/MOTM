@@ -157,8 +157,8 @@ function countdown_clock(meta) {
 
 function home_page_chart(ratings,last_match) {
 
-    var home_chart = $('#home-page-chart')[0].getContext('2d');
-    var chart = new Chart(home_chart, {
+    var home_chart_container = $('#home-page-chart')[0].getContext('2d');
+    var home_chart = new Chart(home_chart_container, {
 
         type: 'bar',
 
@@ -177,7 +177,6 @@ function home_page_chart(ratings,last_match) {
                 display:false
             },
             tooltips: {
-                mode: 'nearest',
                 intersect: false
             },
             maintainAspectRatio: false
