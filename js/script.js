@@ -2,13 +2,13 @@ $(document).ready(function() {
 
 // FAKE LOAD
 
-var matches, ratings;
-$.getJSON('./data/matches.json', function(data) {
-    matches = data;
-});
-$.getJSON('./data/ratings.json', function(data) {
-    ratings = data;
-});
+// var matches, ratings;
+// $.getJSON('./data/matches.json', function(data) {
+//     matches = data;
+// });
+// $.getJSON('./data/ratings.json', function(data) {
+//     ratings = data;
+// });
 
 function load_json() {
 
