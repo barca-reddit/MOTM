@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+$.ajaxSetup({ cache: false });
+
 // FAKE LOAD
 
 // var matches, ratings, players;
