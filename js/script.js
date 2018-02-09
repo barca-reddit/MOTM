@@ -2,12 +2,15 @@ $(document).ready(function() {
 
 // FAKE LOAD
 
-// var matches, ratings;
+// var matches, ratings, players;
 // $.getJSON('./data/matches.json', function(data) {
 //     matches = data;
 // });
 // $.getJSON('./data/ratings.json', function(data) {
 //     ratings = data;
+// });
+// $.getJSON('./data/players.json', function(data) {
+//     players = data;
 // });
 
 function load_json() {
@@ -25,6 +28,16 @@ function load_json() {
 load_json();
 
 function main(players,matches,ratings,meta) {
+
+var players_with_stats = players.filter(function(item){ return item.has_stats === 'true' }).map(function(item){ return item.id -1 });
+
+for (i=0;i<players_with_stats.length;i++) {
+    players[players_with_stats[i]].stats = players[players_with_stats[i]].stats.split(',');
+    players[players_with_stats[i]].stats_liga = players[players_with_stats[i]].stats.slice(0,25);
+    players[players_with_stats[i]].stats_cl = players[players_with_stats[i]].stats.slice(25,50);
+    players[players_with_stats[i]].stats_copa = players[players_with_stats[i]].stats.slice(50,75);
+    players[players_with_stats[i]].stats_total = players[players_with_stats[i]].stats.slice(75,100);
+}
 
 var last_match = matches[matches.length-1];
 var latest_month_data = 'Table ' + month_num_str(last_match.month) + ' ' + last_match.year + ':';
@@ -208,6 +221,187 @@ function match_list_html() {
     return html;
 }
 
+function table_single_player_html(index) {
+    var html =
+	'<tr>\
+	<td>Matches played</td>\
+	<td>' + return_stat('map',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('map',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('map',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('map',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Matches started</td>\
+	<td>' + return_stat('mas',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('mas',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('mas',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('mas',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Matches as substitute</td>\
+	<td>' + return_stat('masub',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('masub',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('masub',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('masub',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Matches substituted</td>\
+	<td>' + return_stat('masubout',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('masubout',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('masubout',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('masubout',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Minutes played</td>\
+	<td>' + return_stat('mip',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('mip',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('mip',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('mip',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Goals scored</td>\
+	<td>' + return_stat('gs',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('gs',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('gs',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('gs',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Goals with head</td>\
+	<td>' + return_stat('gh',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('gh',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('gh',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('gh',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Goals from penalties</td>\
+	<td>' + return_stat('gp',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('gp',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('gp',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('gp',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Goals from free kicks</td>\
+	<td>' + return_stat('gf',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('gf',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('gf',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('gf',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Goals with left foot</td>\
+	<td>' + return_stat('gl',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('gl',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('gl',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('gl',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Goals with right foot</td>\
+	<td>' + return_stat('gr',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('gr',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('gr',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('gr',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Passes</td>\
+	<td>' + return_stat('p',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('p',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('p',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('p',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Assists</td>\
+	<td>' + return_stat('a',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('a',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('a',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('a',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Shots</td>\
+	<td>' + return_stat('s',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('s',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('s',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('s',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Shots on target</td>\
+	<td>' + return_stat('sot',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('sot',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('sot',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('sot',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Shots off target</td>\
+	<td>' + return_stat('sof',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('sof',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('sof',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('sof',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Shots onto woodwork</td>\
+	<td>' + return_stat('sw',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('sw',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('sw',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('sw',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Offsides</td>\
+	<td>' + return_stat('o',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('o',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('o',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('o',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Yellow cards</td>\
+	<td>' + return_stat('y',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('y',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('y',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('y',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Direct red cards</td>\
+	<td>' + return_stat('r',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('r',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('r',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('r',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Red cards for double yellow</td>\
+	<td>' + return_stat('yr',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('yr',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('yr',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('yr',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Fouls committed</td>\
+	<td>' + return_stat('fc',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('fc',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('fc',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('fc',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Fouls received</td>\
+	<td>' + return_stat('fr',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('fr',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('fr',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('fr',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Balls won</td>\
+	<td>' + return_stat('bw',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('bw',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('bw',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('bw',players[index].stats_total) + '</td>\
+	</tr>' +
+	'<tr>\
+	<td>Balls lost</td>\
+	<td>' + return_stat('bl',players[index].stats_liga) + '</td>\
+	<td>' + return_stat('bl',players[index].stats_cl) + '</td>\
+	<td>' + return_stat('bl',players[index].stats_copa) + '</td>\
+	<td>' + return_stat('bl',players[index].stats_total) + '</td>\
+	</tr>'
+
+    return html;
+}
+
 function pagination_html() {
     var html = '<li class="page-item prev"><a class="page-link">&laquo;</a></li>';
     var available_months = matches.map(function(item){ return item.month }).filter(function(value,index,self){ return self.indexOf(value) === index });
@@ -244,6 +438,20 @@ $('.main-menu').click(function() {
             event_listener_matches();
             $('.visible-page').removeClass('visible-page');
             $('.page-' + clicked).addClass('visible-page');
+        }
+    }
+
+    if (clicked === 'players') {
+        if ($('.page-players .table-single-player tbody tr').length > 0) {
+            $('.visible-page').removeClass('visible-page');
+            $('.page-' + clicked).addClass('visible-page');
+        }
+        else {
+            $('.visible-page').removeClass('visible-page');
+            $('.page-' + clicked).addClass('visible-page');
+            $('.page-players .custom-select').val('0');
+            $('.page-players .table-single-player tbody').html(table_single_player_html(0));
+            event_listener_players();
         }
     }
 
@@ -409,6 +617,14 @@ $('.main-menu').click(function() {
         $('.page-' + clicked).addClass('visible-page');
     }
 });
+
+function event_listener_players() {
+    $('.page-players .custom-select').change(function(){
+        var index = parseInt($('.page-players .custom-select').val());
+        $('.page-players .table-single-player tbody').html(table_single_player_html(index));
+        
+    })
+}
 
 function event_listener_charts() {
 
@@ -754,33 +970,3 @@ function charts_page_do_line_chart(args) {
 //         $('.popup').css({visibility:'hidden'});
 //     });
 // });
-
-//vvvvvvvvvvvvvvvv CHARTIST vvvvvvvvvvvvvvvv
-
-// function line_chart_data(data) {
-//     var kw = data.type;
-//     var object = { labels: [], series: [] };
-
-//     for (i=0;i<matches.length;i++) {
-//         object.labels.push(month_num_str(matches[i].month) + ' ' + matches[i].day);
-//     }
-
-//     for (i=0;i<data.players.length;i++) {
-//         var totals = 0;
-//         for (j=0;j<matches.length;j++) {
-//             var temp = ratings.filter(function(item) { return ( item.player_name === data.players[i].name && item.match_id === matches[j].match_id) });
-//             if (object.series[i] === undefined) {
-//                 object.series[i] = [];
-//                 (temp[0] !== undefined) ? totals += temp[0][kw] : totals = totals;
-//                 (temp[0] !== undefined) ? object.series[i].push({ meta: matches[j].opponent, value: totals }) : object.series[i].push({meta: matches[j].opponent, value: totals});
-//             }
-//             else {
-//                 (temp[0] !== undefined) ? totals += temp[0][kw] : totals = totals;
-//                 (temp[0] !== undefined) ? object.series[i].push({ meta: matches[j].opponent, value: totals }) : object.series[i].push({meta: matches[j].opponent, value: totals});
-//             }
-//         }
-//     }
-
-//     return object;
-
-// }

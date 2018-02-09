@@ -185,3 +185,32 @@ function home_page_chart(ratings,last_match) {
 
 }
 
+function return_stat(stat,array) {
+	switch (stat) {
+		case "map": return array[0]; break;      // Matches played
+		case "mas": return array[1]; break;      // Matches started
+		case "masub": return array[2]; break;    // Matches as substitute
+		case "masubout": return array[3]; break; // Matches substituted
+		case "mip": return array[4]; break;      // Minutes played
+		case "gs": return array[5]; break;       // Goals scored
+		case "gh": return array[6]; break;       // Goals with head
+		case "gp": return array[7]; break;       // Goals from penalties
+		case "gf": return array[8]; break;       // Goals from free kicks
+		case "gl": return array[9]; break;       // Goals with left foot
+		case "gr": return array[10]; break;       // Goals with right foot
+		case "p": return array[11]; break;        // Assists (NB:This is actually passes)
+		case "a": return array[12]; break;        // Goal assists
+		case "s": return array[13]; break;        // Shots
+		case "sot": return array[14]; break;      // Shots on target
+		case "sof": return array[15]; break;      // Shots off target
+		case "sw": return array[16]; break;       // Shots onto woodwork
+		case "o": return array[17]; break;        // Offsides
+		case "y": return array[18]; break;        // Yellow cards
+		case "r": return array[19]; break;        // Direct red cards
+		case "yr": return array[20]; break;       // Red cards for double yellow
+		case "fc": return array[21]; break;       // Fouls committed
+		case "fr": return array[22]; break;       // Fouls received
+		case "bw": return array[23]; break;       // Balls won
+		case "bl": return array[24]; break;       // Balls lost
+	}
+}
