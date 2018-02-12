@@ -404,6 +404,21 @@ function table_single_player_html(index) {
     return html;
 }
 
+function table_top_stats(stat) {
+    var html = '';
+    for (i=0;i<players_with_stats.length;i++) {
+        html += 
+        '<tr>\
+        <td>' + players[players_with_stats[i]].name + '</td>\
+        <td>' + return_stat(stat,players[players_with_stats[i]].stats_liga) + '</td>\
+        <td>' + return_stat(stat,players[players_with_stats[i]].stats_cl) + '</td>\
+        <td>' + return_stat(stat,players[players_with_stats[i]].stats_copa) + '</td>\
+        <td>' + return_stat(stat,players[players_with_stats[i]].stats_total) + '</td>\
+        </tr>'
+    }
+    return html;
+}
+
 function pagination_html() {
     var html = '<li class="page-item prev"><a class="page-link">&laquo;</a></li>';
     var available_months = matches.map(function(item){ return item.month }).filter(function(value,index,self){ return self.indexOf(value) === index });
@@ -451,8 +466,10 @@ $('.main-menu').click(function() {
         else {
             $('.visible-page').removeClass('visible-page');
             $('.page-' + clicked).addClass('visible-page');
-            $('.page-players .custom-select').val('0');
+            $('.page-players .individual-stats .custom-select').val('0');
+            $('.page-players .top-stats .custom-select').val('map');
             $('.page-players .table-single-player tbody').html(table_single_player_html(0));
+            $('.page-players .table-top-stats tbody').html(table_top_stats('mas'));
             event_listener_players();
         }
     }
@@ -621,11 +638,65 @@ $('.main-menu').click(function() {
 });
 
 function event_listener_players() {
-    $('.page-players .custom-select').change(function(){
-        var index = parseInt($('.page-players .custom-select').val());
-        $('.page-players .table-single-player tbody').html(table_single_player_html(index));
-        
+
+    $('.page-players .pagination .page-item:not("disabled")').click(function(){
+        var clicked = $(this).find('a').attr('href').replace('#','');
+        if (!$(this).hasClass('active')) {
+            $('.page-players .page-item').removeClass('active');
+            $(this).addClass('active');
+
+            if (clicked === 'individual-stats') {
+                $('.page-players .visible-sub-page').removeClass('visible-sub-page')
+                $('.page-players .individual-stats').addClass('visible-sub-page');
+            }
+            else if (clicked === 'top-stats') {
+                $('.page-players .visible-sub-page').removeClass('visible-sub-page')
+                $('.page-players .top-stats').addClass('visible-sub-page');
+            }
+        }
+    });
+
+    $('.page-players .top-stats .custom-select').change(function(){
+        var stat = $('.page-players .top-stats .custom-select').val();
+        $('.page-players .table-top-stats').fadeOut(150, function() {       
+            $('.page-players .table-top-stats').fadeIn(150);
+            $('.page-players .table-top-stats img.sort-desc').removeClass('sort-desc');
+            $('.page-players .table-top-stats img.sort-asc').removeClass('sort-asc');
+            $('.page-players .table-top-stats tbody').html(table_top_stats(stat));
+        })
     })
+
+    $('.page-players .top-stats .table-top-stats thead .colnum').click(function() {
+
+        if ($(this).find('img').hasClass('sort-asc') || $(this).find('img').hasClass('sort-desc')) {
+
+            if ($(this).find('img').hasClass('sort-asc')) {
+                $(this).find('img').removeClass('sort-asc');
+                $(this).find('img').addClass('sort-desc');
+                sort_table($('.table-top-stats'), 'desc', $(this).attr('index'));
+            }
+            else if ($(this).find('img').hasClass('sort-desc')) {
+                $(this).find('img').removeClass('sort-desc');
+                $(this).find('img').addClass('sort-asc');
+                sort_table($('.table-top-stats'), 'asc', $(this).attr('index'));
+            }
+        }
+
+        else {
+            $('.page-players .top-stats .colnum img').removeClass('sort-asc');
+            $('.page-players .top-stats .colnum img').removeClass('sort-desc');
+            $(this).find('img').addClass('sort-desc');
+            sort_table($('.table-top-stats'), 'desc', $(this).attr('index'));
+        }
+    })
+
+    $('.page-players .individual-stats .custom-select').change(function(){
+        var index = parseInt($('.page-players .individual-stats .custom-select').val());
+        $('.page-players .table-single-player').fadeOut(150, function() {       
+            $('.page-players .table-single-player').fadeIn(150);
+            $('.page-players .table-single-player tbody').html(table_single_player_html(index));
+        })
+    });
 }
 
 function event_listener_charts() {

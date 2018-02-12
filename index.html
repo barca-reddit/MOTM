@@ -17,7 +17,7 @@
 </head>
 <body>
 
-  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• NAVIGATION •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+  <!-- •••••••••••••••••••• NAVIGATION •••••••••••••••••••• -->
 
   <nav class="navbar navbar-expand-sm navbar-dark bg-primary page-navigation mb-1">
     <div class="container">
@@ -48,7 +48,7 @@
     </div>
   </nav>
 
-  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• HOME PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+  <!-- •••••••••••••••••••• HOME PAGE MAIN AREA •••••••••••••••••••• -->
 
   <div class="page-home main-area visible-page">
     <div class="container bg-secondary border border-secondary mb-3">
@@ -155,43 +155,60 @@
     </div><!-- container -->
   </div><!-- home-page main-area -->
 
-  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• PLAYERS PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+  <!-- •••••••••••••••••••• PLAYERS PAGE MAIN AREA •••••••••••••••••••• -->
 
   <div class="page-players main-area">
-    <div class="container">
+    <div class="container mt-3">
       <div class="row justify-content-center">
-        <div class="col-9">
-            <legend>Select Player</legend>
-            <div class="form-group">
-              <select class="custom-select">
-                <option value="0" selected="">Ter Stegen</option>
-                <option value="1" >Semedo</option>
-                <option value="2" >Pique</option>
-                <option value="3" >Rakitic</option>
-                <option value="4" >Busquets</option>
-                <option value="5" >Denis Suarez</option>
-                <option value="7" >Iniesta</option>
-                <option value="8" >Suarez</option>
-                <option value="9" >Messi</option>
-                <option value="10" >Dembele</option>
-                <option value="12" >Cillessen</option>
-                <option value="26" >Coutinho</option>
-                <option value="14" >Paulinho</option>
-                <option value="16" >Paco</option>
-                <option value="17" >Alba</option>
-                <option value="18" >Digne</option>
-                <option value="19" >Sergi Roberto</option>
-                <option value="20" >Gomes</option>
-                <option value="21" >Vidal</option>
-                <option value="22" >Umtiti</option>
-                <option value="23" >Yerry Mina</option>
-                <option value="24" >Vermaelen</option>
-              </select>
-            </div>
+        <div class="col-9 text-center">
+          <ul class="pagination flex-wrap justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link" href="#">&laquo;</a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#individual-stats">Individual Stats</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#top-stats">Stats by type</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#compare-stats">Player comparison</a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="#">&laquo;</a>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row justify-content-center individual-stats visible-sub-page">
         <div class="col-9">
+          <legend>Select Player</legend>
+          <div class="form-group">
+            <select class="custom-select">
+              <option value="0" selected="">Ter Stegen</option>
+              <option value="1" >Semedo</option>
+              <option value="2" >Pique</option>
+              <option value="3" >Rakitic</option>
+              <option value="4" >Busquets</option>
+              <option value="5" >Denis Suarez</option>
+              <option value="7" >Iniesta</option>
+              <option value="8" >Suarez</option>
+              <option value="9" >Messi</option>
+              <option value="10" >Dembele</option>
+              <option value="12" >Cillessen</option>
+              <option value="26" >Coutinho</option>
+              <option value="14" >Paulinho</option>
+              <option value="16" >Paco</option>
+              <option value="17" >Alba</option>
+              <option value="18" >Digne</option>
+              <option value="19" >Sergi Roberto</option>
+              <option value="20" >Gomes</option>
+              <option value="21" >Vidal</option>
+              <option value="22" >Umtiti</option>
+              <option value="23" >Yerry Mina</option>
+              <option value="24" >Vermaelen</option>
+            </select>
+          </div>
           <table class="table table-sm table-striped text-center align-text-bottom table-single-player">
             <thead>
               <tr>
@@ -206,11 +223,61 @@
             </tbody>
           </table>
         </div>
+      </div><!-- individual stats -->
+      <div class="row justify-content-center top-stats">
+        <div class="col-9">
+          <legend>Select Stat</legend>
+          <div class="form-group">
+            <select class="custom-select">
+              <option value="map">Matches played</option>
+              <option value="mas">Matches started</option>
+              <option value="masub">Matches as substitute</option>
+              <option value="masubout">Matches substituted</option>
+              <option value="mip">Minutes played</option>
+              <option value="gs">Goals scored</option>
+              <option value="gh">Goals with head</option>
+              <option value="gp">Goals from penalties</option>
+              <option value="gf">Goals from free kicks</option>
+              <option value="gl">Goals with left foot</option>
+              <option value="gr">Goals with right foot</option>
+              <option value="p">Passes</option>
+              <option value="a">Assists</option>
+              <option value="s">Shots</option>
+              <option value="sot">Shots on target</option>
+              <option value="sof">Shots off target</option>
+              <option value="sw">Shots onto woodwork</option>
+              <option value="o">Offsides</option>
+              <option value="y">Yellow cards</option>
+              <option value="r">Direct red cards</option>
+              <option value="yr">Red cards for double yellow</option>
+              <option value="fc">Fouls committed</option>
+              <option value="fr">Fouls received</option>
+              <option value="bw">Balls won</option>
+              <option value="bl">Balls lost</option>
+            </select>
+          </div>
+          <table class="table table-sm table-striped text-center align-text-bottom table-top-stats">
+            <thead>
+              <tr>
+                <th style="width:20%">Player</th>
+                <th class="colnum" index="2" style="width:20%">La Liga<img class="sort sort-default"></img></th>
+                <th class="colnum" index="3" style="width:20%">Champions<img class="sort sort-default"></img></th>
+                <th class="colnum" index="4" style="width:20%">Copa del Rey<img class="sort sort-default"></img></th>
+                <th class="colnum" index="5" style="width:20%">Total<img class="sort sort-default"></img></th>
+              </tr>
+            </thead>
+            <tbody class="small">
+            </tbody>
+          </table>
+        </div>
+      </div><!-- top stats -->
+      <div class="row justify-content-center compare-stats">
+        <h1>Under construction</h1>
       </div>
     </div><!-- container -->
   </div><!-- players-page main-area -->
 
-  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• MATCHES PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+  <!-- •••••••••••••••••••• MATCHES PAGE MAIN AREA •••••••••••••••••••• -->
 
   <div class="page-matches main-area">
     <div class="container mt-3">
@@ -233,7 +300,7 @@
     </div>
   </div>
 
-  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• CHARTS PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+  <!-- •••••••••••••••••••• CHARTS PAGE MAIN AREA •••••••••••••••••••• -->
 
   <div class="page-charts main-area">
     <div class="container mt-3">
@@ -356,7 +423,7 @@
     </div>
   </div>
 
-  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• RECORDS PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+  <!-- •••••••••••••••••••• RECORDS PAGE MAIN AREA •••••••••••••••••••• -->
 
   <div class="page-records main-area">
     <div class="container mt-3">
@@ -383,7 +450,7 @@
     </div>
   </div>
 
-  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• TABLES PAGE MAIN AREA •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+  <!-- •••••••••••••••••••• TABLES PAGE MAIN AREA •••••••••••••••••••• -->
 
   <div class="page-tables main-area">
     <div class="container mt-3">
@@ -429,7 +496,7 @@
     </div>
   </div>
 
-  <!-- •••••••••••••••••••••••••••••••••••••••••••••••••• FOOTER •••••••••••••••••••••••••••••••••••••••••••••••••• -->
+  <!-- •••••••••••••••••••• FOOTER •••••••••••••••••••• -->
 
   <footer class="footer mt-3 bg-light">
     <div class="container">

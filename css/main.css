@@ -1,6 +1,7 @@
 body {
   box-shadow: inset 0 0 5em 0 #dedede;
   background-color: #f8f8f8;
+  overflow-y: scroll;
 }
 
 .page-matches table td, .page-matches table th {
@@ -34,6 +35,14 @@ body {
 
 .page-home, .page-players, .page-matches, .page-records, .page-tables, .page-charts {
   display: none;
+}
+
+.page-players .individual-stats, .page-players .top-stats, .page-players .compare-stats {
+  display: none;
+}
+
+.visible-sub-page {
+  display: flex!important;
 }
 
 .visible-page {
@@ -73,28 +82,11 @@ body {
   opacity: .3;
 }
 
-.ct-series.ct-series-a path.ct-line, .ct-series.ct-series-a line.ct-point, .ct-series.ct-series-a line.ct-bar { stroke: #2196f3; }
-.ct-series.ct-series-b path.ct-line, .ct-series.ct-series-b line.ct-point, .ct-series.ct-series-b line.ct-bar { stroke: #e91e63; }
-.ct-series.ct-series-c path.ct-line, .ct-series.ct-series-c line.ct-point, .ct-series.ct-series-c line.ct-bar { stroke: #8bc34a; }
-.ct-series.ct-series-d path.ct-line, .ct-series.ct-series-d line.ct-point, .ct-series.ct-series-d line.ct-bar { stroke: #757575; }
-.ct-series.ct-series-e path.ct-line, .ct-series.ct-series-e line.ct-point, .ct-series.ct-series-e line.ct-bar { stroke: #f57c00; }
-.ct-series.ct-series-f path.ct-line, .ct-series.ct-series-f line.ct-point, .ct-series.ct-series-f line.ct-bar { stroke: #26c6da; }
-.ct-series.ct-series-g path.ct-line, .ct-series.ct-series-g line.ct-point, .ct-series.ct-series-g line.ct-bar { stroke: #3f51b5; }
-.ct-series.ct-series-h path.ct-line, .ct-series.ct-series-h line.ct-point, .ct-series.ct-series-h line.ct-bar { stroke: #66bb6a; }
-.ct-series.ct-series-i path.ct-line, .ct-series.ct-series-i line.ct-point, .ct-series.ct-series-i line.ct-bar { stroke: #263238; }
-.ct-series.ct-series-j path.ct-line, .ct-series.ct-series-j line.ct-point, .ct-series.ct-series-j line.ct-bar { stroke: #ffab00; }
-.ct-series.ct-series-k path.ct-line, .ct-series.ct-series-k line.ct-point, .ct-series.ct-series-k line.ct-bar { stroke: #4fc3f7; }
-.ct-series.ct-series-l path.ct-line, .ct-series.ct-series-l line.ct-point, .ct-series.ct-series-l line.ct-bar { stroke: #9c27b0; }
-.ct-series.ct-series-m path.ct-line, .ct-series.ct-series-m line.ct-point, .ct-series.ct-series-m line.ct-bar { stroke: #26a69a; }
-.ct-series.ct-series-n path.ct-line, .ct-series.ct-series-n line.ct-point, .ct-series.ct-series-n line.ct-bar { stroke: #78909c; }
-.ct-series.ct-series-o path.ct-line, .ct-series.ct-series-o line.ct-point, .ct-series.ct-series-o line.ct-bar { stroke: #fc0214; }
-.ct-series.ct-series-p path.ct-line, .ct-series.ct-series-p line.ct-point, .ct-series.ct-series-p line.ct-bar { stroke: #7c4dff; }
-.ct-series.ct-series-q path.ct-line, .ct-series.ct-series-q line.ct-point, .ct-series.ct-series-q line.ct-bar { stroke: #795548; }
-.ct-series.ct-series-r path.ct-line, .ct-series.ct-series-r line.ct-point, .ct-series.ct-series-r line.ct-bar { stroke: #aeea00; }
-.ct-series.ct-series-s path.ct-line, .ct-series.ct-series-s line.ct-point, .ct-series.ct-series-s line.ct-bar { stroke: #bdbdbd; }
-.ct-series.ct-series-t path.ct-line, .ct-series.ct-series-t line.ct-point, .ct-series.ct-series-t line.ct-bar { stroke: #e64a19; }
+.table-matches table tbody a {
+  position: relative;
+}
 
-table tbody a {
+.table-monthly-home tbody a, .table-season-home tbody a, .table-monthly-tables tbody a, .table-season-tables tbody a {
   position: relative;
 }
 
@@ -114,4 +106,29 @@ table tbody a:hover span, table tbody a:focus span {
   z-index: 1;
   overflow: visible;
   white-space: nowrap;
+}
+
+.page-players .top-stats thead th {
+  position: relative;
+  cursor: pointer;
+}
+
+.page-players .top-stats thead tr img {
+  position: absolute;
+  top: 9px;
+  right: 4px;
+  width: 12px;
+  height: 12px;
+}
+
+.page-players .top-stats .sort-default {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMBAMAAACkW0HUAAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaPxwLAAAAD3RSTlMAAQQUIzAxbYiVsLXBxfFQRRztAAAAQElEQVQIW2NgYIhWYAACtv+XQFT+/79ALuv//yAux6pVq5YwoAEeoNxXBgbm9///TwRy7f7/FGAAcSeCZc2BHADV1BbryO1UxgAAAABJRU5ErkJggg==');
+}
+
+.page-players .top-stats .sort-asc {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMBAMAAACkW0HUAAAAJFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACmWAJHAAAAC3RSTlMAAQYVFiouPEC80ZaQXOoAAAAtSURBVAjXY2BAA5oFIJJp9Q4QpbV7dwOIs3v3DjAHxJ0NojYzuKUBQSADNgAAr3MQ+X9bLpEAAAAASUVORK5CYII=');
+}
+
+.page-players .top-stats .sort-desc {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMBAMAAACkW0HUAAAAIVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABt0UjBAAAACnRSTlMAAQYVFy0xQLzRMXl+oQAAACxJREFUCFtjYMAG3NKAIJChaxUQLGbQBFEFDEyzVq1aDpTUBHEYgFwQBxsAAJ1bDw2ZcQ6sAAAAAElFTkSuQmCC');
 }

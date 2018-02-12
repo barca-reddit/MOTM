@@ -214,3 +214,25 @@ function return_stat(stat,array) {
 		case "bl": return array[24]; break;       // Balls lost
 	}
 }
+
+
+function sort_table($table,order,column){
+    var $rows = $('tbody > tr', $table);
+    $rows.sort(function (a, b) {
+        var keyA = parseInt($('td:nth-child(' + column + ')', a).text());
+        var keyB = parseInt($('td:nth-child(' + column + ')', b).text());
+        if (order === 'asc') {
+            return (keyA == keyB) ? 0 : + (keyA > keyB) || -1;
+            // return (keyA > keyB) ? 1 : 0;
+        }
+        else if (order === 'desc') {
+            return (keyA == keyB) ? 0 : + (keyA < keyB) || -1;
+            // return (keyA > keyB) ? 0 : 1;
+        }
+    });
+    $.each($rows, function (index, row) {
+        $table.append(row);
+    });
+}
+
+// sort_table($('.table-single-player'),'assc','3');
