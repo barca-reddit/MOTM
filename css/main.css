@@ -33,7 +33,7 @@ body {
   opacity: 0;
 }
 
-.page-home, .page-players, .page-matches, .page-records, .page-tables, .page-charts {
+.page-home, .page-players, .page-matches, .page-records, .page-tables, .page-charts, .page-about {
   display: none;
 }
 
